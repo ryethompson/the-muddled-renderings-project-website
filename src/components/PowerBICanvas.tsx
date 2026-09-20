@@ -21,7 +21,7 @@ export const PowerBICanvas: React.FC<PowerBICanvasProps> = ({
 
   const githubUrl =
     project.githubPipelineUrl ||
-    'https://github.com/the-muddled-renderings-project/pipelines/blob/main/.github/workflows/powerbi_ingestion_etl.yml';
+    'https://github.com/ryethompson/the-muddled-renderings-project-website';
 
   const handleSaveUrl = (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,16 +70,16 @@ export const PowerBICanvas: React.FC<PowerBICanvasProps> = ({
 
         {/* Right: GitHub Pipeline link & Viewport Actions */}
         <div className="flex items-center gap-2">
-          {/* Direct GitHub Pipeline Link */}
+          {/* Direct GitHub Link */}
           <a
             href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/20 text-white hover:text-amber-300 transition-all font-semibold"
-            title="Inspect GitHub pipeline workflow and ETL code"
+            title="Inspect GitHub repository and pipeline code"
           >
             <Github className="w-3.5 h-3.5" />
-            <span>GitHub Pipeline</span>
+            <span>GitHub Repository</span>
             <ExternalLink className="w-3 h-3 opacity-60" />
           </a>
 

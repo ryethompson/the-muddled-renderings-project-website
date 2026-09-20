@@ -7,7 +7,6 @@ import React, { useState, useEffect } from 'react';
 import { AtlasDatasetResponse } from './types';
 import { Project, ProjectParameters } from './types/projects';
 import { ProjectStorage } from './lib/projectStorage';
-import { IngestionEngine } from './server/ingestionEngine';
 
 // Components
 import { Navigation } from './components/Navigation';
@@ -255,10 +254,10 @@ export function App() {
         )}
       </div>
 
-      {/* 3. Bottom Banner: Mission Statement (Left) & Pipeline Last Updated / Release Note & GitHub Pipeline (Right) */}
+      {/* 3. Bottom Banner: Mission Statement (Left) & Pipeline Last Updated / Release Note & GitHub Link (Right) */}
       <BottomBanner
         lastUpdated={oecdData?.generatedAt}
-        pipelineGithubUrl={activeProject?.githubPipelineUrl || 'https://github.com/the-muddled-renderings-project/pipelines'}
+        pipelineGithubUrl={activeProject?.githubPipelineUrl || 'https://github.com/ryethompson/the-muddled-renderings-project-website'}
       />
 
       {/* 4. Publish New Project Modal */}

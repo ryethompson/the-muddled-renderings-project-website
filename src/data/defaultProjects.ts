@@ -16,7 +16,7 @@ export const DEFAULT_PROJECTS: Project[] = [
     isCanonicalTest: true,
     featured: true,
     tags: ['OECD Statistics', 'Generative Atlas', 'Economic Topography', 'Canvas 2D'],
-    githubPipelineUrl: 'https://github.com/the-muddled-renderings-project/pipelines/blob/main/.github/workflows/oecd_pipeline.yml',
+    githubPipelineUrl: 'https://github.com/ryethompson/the-muddled-renderings-project-website',
     parameters: {
       colorPalette: 'obsidian_gold',
       speed: 1.0,

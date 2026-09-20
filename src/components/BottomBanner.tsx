@@ -11,7 +11,7 @@ interface BottomBannerProps {
 export const BottomBanner: React.FC<BottomBannerProps> = ({
   missionStatement = 'The Muddled Renderings Project is an ongoing visual inquiry into the ways empirical data comes to represent economic inequalities as reality. Drawing on real-world datasets, analytical pipelines, and generative mechanisms, this open source project transforms statistical abstractions into living digital landscapes: shifting terrains where numbers acquire form, relationships become spatial, and patterns emerge and dissolve. In doing so, the project challenges not only what data reveals about economic inequalities, but also what is distorted, obscured, or lost when complex realities are rendered legible through measurement.',
   releaseNote = 'Release v1.4 (09.2026)',
-  pipelineGithubUrl = 'https://github.com/the-muddled-renderings-project/pipelines',
+  pipelineGithubUrl = 'https://github.com/ryethompson/the-muddled-renderings-project-website',
 }) => {
   return (
     <footer
@@ -38,17 +38,17 @@ export const BottomBanner: React.FC<BottomBannerProps> = ({
               {releaseNote}
             </div>
 
-            {/* 2. GitHub Pipelines */}
+            {/* 2. Public GitHub Repository & Pipelines */}
             <div>
               <a
                 href={pipelineGithubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-medium transition-colors group"
-                title="Inspect GitHub pipelines where data ingestion and models are defined"
+                title="View public repository and pipeline source code on GitHub"
               >
                 <Github className="w-3.5 h-3.5 text-white/70 group-hover:text-amber-300 transition-colors" />
-                <span>GitHub Pipelines</span>
+                <span>GitHub Repository</span>
                 <ExternalLink className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100" />
               </a>
             </div>

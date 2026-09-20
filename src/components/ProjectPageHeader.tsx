@@ -11,6 +11,8 @@ interface ProjectPageHeaderProps {
 export const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
   project,
 }) => {
+  const repoUrl = project.githubPipelineUrl || 'https://github.com/ryethompson/the-muddled-renderings-project-website';
+
   return (
     <header id="project-page-header" className="w-full max-w-6xl mx-auto pt-6 pb-4 px-4">
       {/* Main Project Title Block */}
@@ -33,22 +35,18 @@ export const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
               <Calendar className="w-3 h-3" />
               <span>{project.datePublished}</span>
             </span>
-            {project.githubPipelineUrl && (
-              <>
-                <span>•</span>
-                <a
-                  href={project.githubPipelineUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-medium transition-colors"
-                  title="View GitHub pipeline where this project's data is defined"
-                >
-                  <Github className="w-3 h-3" />
-                  <span>Pipeline Source</span>
-                  <ExternalLink className="w-2.5 h-2.5 opacity-60" />
-                </a>
-              </>
-            )}
+            <span>•</span>
+            <a
+              href={repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-medium transition-colors"
+              title="View public repository and pipeline source code on GitHub"
+            >
+              <Github className="w-3 h-3" />
+              <span>GitHub Repository</span>
+              <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+            </a>
           </div>
         </div>
       </div>
