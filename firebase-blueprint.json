@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0",
+  "entities": {
+    "countries": {
+      "title": "OECD Country Profiles",
+      "description": "Geographical and OECD membership metadata for 38 member states",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "isoCode": { "type": "string" },
+        "iso2Code": { "type": "string" },
+        "name": { "type": "string" },
+        "officialName": { "type": "string" },
+        "oecdMemberSince": { "type": "number" },
+        "region": { "type": "string" },
+        "displayOrder": { "type": "number" },
+        "coordinates": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "fieldPosition": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" }
+          }
+        }
+      }
+    },
+    "observations": {
+      "title": "Statistical Observations",
+      "description": "Harmonized statistical measurements for OECD indicators",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "countryId": { "type": "string" },
+        "indicatorSlug": { "type": "string" },
+        "value": { "type": "number" },
+        "unit": { "type": "string" },
+        "referencePeriod": { "type": "string" },
+        "frequency": { "type": "string" },
+        "sourceId": { "type": "string" },
+        "publicationDate": { "type": "string" },
+        "retrievedAt": { "type": "string" },
+        "revisionStatus": { "type": "string" },
+        "qualityStatus": { "type": "string" }
+      }
+    },
+    "ingestionLogs": {
+      "title": "Ingestion Audit Logs",
+      "description": "Historical audit runs of monthly statistical synchronization",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "triggeredAt": { "type": "string" },
+        "completedAt": { "type": "string" },
+        "status": { "type": "string" },
+        "recordsProcessed": { "type": "number" },
+        "summary": { "type": "string" }
+      }
+    }
+  }
+}

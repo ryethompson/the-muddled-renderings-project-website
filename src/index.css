@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Nano';
+  src: url('/fonts/nano.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    /* Slick modern tech company font system */
+    --font-tech: 'Sora', 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-futuristic: 'Syncopate', 'Sora', sans-serif;
+    --font-sans: 'Sora', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-rubik: 'Rubik', sans-serif;
+    --font-display: 'Cinzel', serif;
+    --font-nano: 'Nano', 'Sora', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #0b0c10;
+    color: #dedfe8;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-tech);
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    line-height: 1.65;
+  }
+}
+
+.font-helvetica {
+  font-family: "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+.font-tech {
+  font-family: var(--font-tech);
+}
+
+.font-futuristic {
+  font-family: var(--font-futuristic);
+}
+
+.font-nano {
+  font-family: var(--font-nano);
+  letter-spacing: 0.04em;
+}
+
+.font-cinzel {
+  font-family: var(--font-display);
+}
+
+.font-rubik {
+  font-family: var(--font-rubik);
+}
+
+.font-serif-display {
+  font-family: var(--font-tech);
+}
+
+.font-mono,
+.font-mono-code,
+code,
+pre {
+  font-family: var(--font-mono) !important;
+}
+
+/* Custom scrollbar for subtle aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0e14;
+}
+::-webkit-scrollbar-thumb {
+  background: #242738;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #393e58;
+}
+
+/* Pixel data-rendering smooth organic breathing & dimming animations */
+@keyframes pixel-breathe-a {
+  0%, 100% {
+    opacity: 0.12;
+    filter: drop-shadow(0 0 0px transparent);
+  }
+  42%, 58% {
+    opacity: 0.96;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
+  }
+}
+
+@keyframes pixel-breathe-b {
+  0%, 100% {
+    opacity: 0.92;
+    filter: drop-shadow(0 0 2.5px rgba(255, 255, 255, 0.8));
+  }
+  38%, 56% {
+    opacity: 0.14;
+    filter: drop-shadow(0 0 0px transparent);
+  }
+}
+
+@keyframes pixel-breathe-c {
+  0%, 100% {
+    opacity: 0.2;
+    filter: drop-shadow(0 0 0px transparent);
+  }
+  28%, 46% {
+    opacity: 0.88;
+    filter: drop-shadow(0 0 2.5px rgba(255, 255, 255, 0.75));
+  }
+  72% {
+    opacity: 0.38;
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.3));
+  }
+}
+
+@keyframes pixel-breathe-d {
+  0%, 100% {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 2.5px rgba(255, 255, 255, 0.75));
+  }
+  48%, 62% {
+    opacity: 0.16;
+    filter: drop-shadow(0 0 0px transparent);
+  }
+}
+
+.pixel-pulse-1 {
+  animation: pixel-breathe-a 4.3s infinite ease-in-out;
+  animation-delay: 0s;
+}
+
+.pixel-pulse-2 {
+  animation: pixel-breathe-b 5.7s infinite ease-in-out;
+  animation-delay: 1.4s;
+}
+
+.pixel-pulse-3 {
+  animation: pixel-breathe-c 3.8s infinite ease-in-out;
+  animation-delay: 0.6s;
+}
+
+.pixel-pulse-4 {
+  animation: pixel-breathe-d 6.2s infinite ease-in-out;
+  animation-delay: 2.1s;
+}
+
+.pixel-pulse-5 {
+  animation: pixel-breathe-a 4.9s infinite ease-in-out;
+  animation-delay: 0.3s;
+}
+
+.pixel-pulse-6 {
+  animation: pixel-breathe-b 3.6s infinite ease-in-out;
+  animation-delay: 1.9s;
+}
+
+.pixel-pulse-7 {
+  animation: pixel-breathe-c 5.3s infinite ease-in-out;
+  animation-delay: 2.7s;
+}
+
+.pixel-pulse-8 {
+  animation: pixel-breathe-d 4.6s infinite ease-in-out;
+  animation-delay: 1.1s;
+}
+
+.pixel-pulse-9 {
+  animation: pixel-breathe-a 5.9s infinite ease-in-out;
+  animation-delay: 3.2s;
+}
+
