@@ -1,22 +1,10 @@
 # The Muddled Renderings Project
 
-> **An exploratory research project translating complex socio-economic realities into living digital landscapes, with the goal of critically inquiring the ways data comes to represent reality.**
-
-[![Live Web Application](https://img.shields.io/badge/Live%20App-Online-brightgreen)](https://ais-dev-izqtd3eyx62tvdpyveoioe-314342441459.europe-west2.run.app)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-blue)](https://nodejs.org/)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue)](https://www.typescriptlang.org/)
-[![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
-
----
-
-## 1. About the Project
-
 **The Muddled Renderings Project** is an ongoing visual inquiry into the ways empirical data comes to represent economic inequalities as reality. Drawing on real-world datasets, analytical pipelines, and generative mechanisms, this open source project transforms statistical abstractions into living digital landscapes: shifting terrains where numbers acquire form, relationships become spatial, and patterns emerge and dissolve. In doing so, the project challenges not only what data reveals about economic inequalities, but also what is distorted, obscured, or lost when complex realities are rendered legible through measurement. 
 
 ---
 
-## 2. Architecture: Renderings & Respective Pipelines
+## 1. Architecture: Renderings & Respective Pipelines
 
 In this repository, **every published rendering has one clearly associated pipeline** defined in its own dedicated subfolder under [`renderings/`](./renderings/). Each folder contains the end-to-end data lifecycle: raw extraction scripts, statistical normalization algorithms, procedural visual engines, and data schemas.
 
@@ -49,7 +37,7 @@ the-muddled-renderings-project-website/
 
 ---
 
-## 3. Published Renderings
+## 2. Published Renderings
 
 ### Rendering #1: Mar-a-Techno Archipelago
 
@@ -81,7 +69,7 @@ the-muddled-renderings-project-website/
 
 ---
 
-## 4. Publishing Future Renderings
+## 3. Publishing Future Renderings
 
 As new renderings are created, each shall be published with its own self-contained pipeline folder:
 
@@ -96,7 +84,7 @@ Refer to [`renderings/README.md`](./renderings/README.md) for full architectural
 
 ---
 
-## 5. Local Development & Setup
+## 4. Local Development & Setup
 
 ### Prerequisites
 * **Node.js**: v18.0.0 or higher (v20+ recommended)
