@@ -5,7 +5,7 @@ export const DEFAULT_PROJECTS: Project[] = [
     id: 'test',
     slug: 'test',
     title: 'Mar-a-Techno Archipelago',
-    subtitle: 'A visualisation of the relationship between median disposable income and R&D expenditure and digital integration in the OECD',
+    subtitle: 'A visualisation of the relationship between median disposable income, national R&D expenditure, and digital integration in the OECD',
     category: 'Macroeconomics & Living Terrain',
     description: 'In a disparate ocean, hotspots emerge. An archipelago develops; islands grow and contract in form, fed by the ever-violent outbursts of capital expenditure. Spires rise and shape the horizon, while volcanic sediment hardens into intricate circuitries. Ruffled by aura and the unknown, the islands expand and recede in size, competing for finite space in a volatile ecosystem.',
     artisticPremise: 'National economic productivity is re-imagined not as tabular spreadsheets, but as an ancient living geological shelf where digital connectivity elevates terrain and R&D fuels luminescence.',
@@ -16,7 +16,7 @@ export const DEFAULT_PROJECTS: Project[] = [
     isCanonicalTest: true,
     featured: true,
     tags: ['OECD Statistics', 'Generative Atlas', 'Economic Topography', 'Canvas 2D'],
-    githubPipelineUrl: 'https://github.com/ryethompson/the-muddled-renderings-project-website',
+    githubPipelineUrl: 'https://github.com/ryethompson/the-muddled-renderings-project-website/tree/main/renderings/mar-a-techno-archipelago',
     parameters: {
       colorPalette: 'obsidian_gold',
       speed: 1.0,

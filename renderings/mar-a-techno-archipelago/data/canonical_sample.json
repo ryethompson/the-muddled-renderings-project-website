@@ -1,0 +1,49 @@
+{
+  "renderingId": "mar-a-techno-archipelago",
+  "title": "Mar-a-Techno Archipelago",
+  "edition": "2026.08 — OECD Atlas of Living Economics",
+  "generatedAt": "2026-08-21T00:00:00Z",
+  "oecdCountryCount": 38,
+  "indicators": [
+    {
+      "slug": "median_disposable_income",
+      "name": "Median Disposable Household Income",
+      "agency": "OECD (WISE)",
+      "unit": "USD PPP",
+      "visualTarget": "Geological bedrock mass & elevation relief"
+    },
+    {
+      "slug": "rd_expenditure_gdp",
+      "name": "Gross Domestic Expenditure on R&D",
+      "agency": "OECD (STI MSTI)",
+      "unit": "% of GDP",
+      "visualTarget": "Vertical crystalline obelisk height & photon intensity"
+    },
+    {
+      "slug": "digital_intensity_businesses",
+      "name": "Digital Intensity of Enterprises",
+      "agency": "OECD / Eurostat (DII)",
+      "unit": "% of enterprises",
+      "visualTarget": "Intricate circuitry trace count & pulse velocity"
+    },
+    {
+      "slug": "household_internet_access",
+      "name": "Household Internet Access",
+      "agency": "OECD (NAD ICT)",
+      "unit": "% of households",
+      "visualTarget": "Coherence aura halo & atmospheric particle velocity"
+    }
+  ],
+  "sampleObservations": {
+    "USA": { "name": "United States", "income": 48600, "rd": 3.46, "digital": 77.2, "internet": 93.7 },
+    "CHE": { "name": "Switzerland", "income": 47900, "rd": 3.36, "digital": 76.5, "internet": 98.4 },
+    "NOR": { "name": "Norway", "income": 42100, "rd": 1.94, "digital": 84.6, "internet": 99.1 },
+    "ISR": { "name": "Israel", "income": 29100, "rd": 5.56, "digital": 73.0, "internet": 92.4 },
+    "KOR": { "name": "Korea", "income": 33600, "rd": 5.21, "digital": 78.4, "internet": 99.7 },
+    "DEU": { "name": "Germany", "income": 38900, "rd": 3.13, "digital": 67.8, "internet": 94.6 },
+    "GBR": { "name": "United Kingdom", "income": 36200, "rd": 2.91, "digital": 69.4, "internet": 97.2 },
+    "JPN": { "name": "Japan", "income": 32500, "rd": 3.30, "digital": 67.9, "internet": 96.2 },
+    "COL": { "name": "Colombia", "income": 9200, "rd": 0.29, "digital": 27.5, "internet": 69.8 },
+    "MEX": { "name": "Mexico", "income": 10800, "rd": 0.31, "digital": 33.4, "internet": 78.6 }
+  }
+}

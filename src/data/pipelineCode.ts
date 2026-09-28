@@ -19,7 +19,7 @@ export interface PipelineFile {
   code: string;
 }
 
-export const PIPELINE_REPOSITORY_URL = 'https://github.com/the-muddled-renderings-project/pipelines';
+export const PIPELINE_REPOSITORY_URL = 'https://github.com/ryethompson/the-muddled-renderings-project-website/tree/main/renderings/mar-a-techno-archipelago';
 
 export const PIPELINE_CODE_FILES: PipelineFile[] = [
   {
@@ -28,7 +28,7 @@ export const PIPELINE_CODE_FILES: PipelineFile[] = [
     language: 'python',
     title: '1. OECD Database ETL Pipeline',
     description: 'Autonomous extraction pipeline querying OECD SDMX REST APIs, parsing XML/JSON series, asserting statistical quality gates, and compiling normalized country profiles.',
-    path: 'pipeline/oecd_database_etl.py',
+    path: 'renderings/mar-a-techno-archipelago/pipeline/oecd_database_etl.py',
     code: `"""
 THE MUDDLED RENDERINGS PROJECT
 Module: OECD Database Ingestion & ETL Pipeline
@@ -220,7 +220,7 @@ if __name__ == "__main__":
     language: 'typescript',
     title: '2. Statistical Analytics & Harmonic Modeling Engine',
     description: 'Calculates robust z-scores, cross-indicator covariance matrices, harmonic resonance indices, and spatial repulsion algorithms that translate statistics into visual dimensions.',
-    path: 'analytics/analytics_engine.ts',
+    path: 'renderings/mar-a-techno-archipelago/analytics/analytics_engine.ts',
     code: `/**
  * THE MUDDLED RENDERINGS PROJECT - Analytics & Harmonic Modeling Engine
  * 
@@ -360,7 +360,7 @@ export class AnalyticsEngine {
     language: 'typescript',
     title: '3. Website Canvas Procedural Landscape Visualizer',
     description: 'HTML5 2D Canvas rendering engine featuring harmonic terrain synthesis, crystalline spire emergence, particle vector flow fields, and interactive coordinate raycasting.',
-    path: 'visualization/landscape_canvas_renderer.ts',
+    path: 'renderings/mar-a-techno-archipelago/visualization/landscape_canvas_renderer.ts',
     code: `/**
  * THE MUDDLED RENDERINGS PROJECT - Website Canvas Procedural Renderer
  * 
@@ -598,7 +598,7 @@ export class LandscapeCanvasRenderer {
     language: 'yaml',
     title: '4. GitHub Actions Automated Pipeline Workflow',
     description: 'Autonomous CI/CD workflow executing monthly OECD data extraction, running automated statistical assertions, compiling production atlas artifacts, and deploying to Cloud Run.',
-    path: '.github/workflows/oecd_atlas_pipeline.yml',
+    path: 'renderings/mar-a-techno-archipelago/workflow/oecd_atlas_pipeline.yml',
     code: `name: OECD Living Atlas Ingestion Pipeline
 
 on:
@@ -682,7 +682,7 @@ jobs:
     language: 'markdown',
     title: '5. End-to-End Architecture: OECD to Canvas',
     description: 'Comprehensive specification of the end-to-end data pipeline from public OECD registries to statistical analytics and generative canvas visual representation.',
-    path: 'docs/ARCHITECTURE.md',
+    path: 'renderings/mar-a-techno-archipelago/README.md',
     code: `# THE MUDDLED RENDERINGS PROJECT
 ## Complete Data Architecture: From OECD Statistical Registry to Living Canvas
 
