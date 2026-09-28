@@ -10,7 +10,7 @@ export const DEFAULT_PROJECTS: Project[] = [
     description: 'In a disparate ocean, hotspots emerge. An archipelago develops; islands grow and contract in form, fed by the ever-violent outbursts of capital expenditure. Spires rise and shape the horizon, while volcanic sediment hardens into intricate circuitries. Ruffled by aura and the unknown, the islands expand and recede in size, competing for finite space in a volatile ecosystem.',
     artisticPremise: 'National economic productivity is re-imagined not as tabular spreadsheets, but as an ancient living geological shelf where digital connectivity elevates terrain and R&D fuels luminescence.',
     renderingEngine: 'oecd_atlas',
-    datePublished: '2026-08-21',
+    datePublished: '21-08-2026',
     author: 'OECD Data Art Working Group',
     version: '1.4.0',
     isCanonicalTest: true,

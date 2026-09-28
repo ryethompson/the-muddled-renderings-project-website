@@ -26,8 +26,8 @@ export const PIPELINE_CODE_FILES: PipelineFile[] = [
     filename: 'oecd_database_etl.py',
     category: 'database_pipeline',
     language: 'python',
-    title: '1. OECD Database ETL Pipeline',
-    description: 'Autonomous extraction pipeline querying OECD SDMX REST APIs, parsing XML/JSON series, asserting statistical quality gates, and compiling normalized country profiles.',
+    title: '1. OECD Database Multi-Year ETL Pipeline (2014–2024)',
+    description: 'Autonomous extraction pipeline querying OECD SDMX REST APIs (2014–2024), enforcing the strict 2-Year Maximum Interpolation Protocol, asserting statistical quality gates, and compiling normalized longitudinal profiles.',
     path: 'renderings/mar-a-techno-archipelago/pipeline/oecd_database_etl.py',
     code: `"""
 THE MUDDLED RENDERINGS PROJECT

@@ -28,6 +28,7 @@ export function App() {
 
   // OECD Atlas specific state (used for "test" project page)
   const [oecdData, setOecdData] = useState<AtlasDatasetResponse | null>(null);
+  const [selectedYear, setSelectedYear] = useState<number>(2024);
   const [selectedCountryId, setSelectedCountryId] = useState<string | null>(null);
   const [isIngesting, setIsIngesting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -225,12 +226,17 @@ export function App() {
             <main id="main-project-viewport" className="w-full max-w-6xl mx-auto px-4">
               {activeProject.id === 'test' || activeProject.renderingEngine === 'oecd_atlas' ? (
                 /* Canonical OECD Economic Atlas Visual Field ('test') */
-                <div>
+                <div className="space-y-8">
                   <AtlasCanvas
                     countries={oecdData.countries}
                     indicators={oecdData.indicators}
                     selectedCountryId={selectedCountryId}
                     onSelectCountry={setSelectedCountryId}
+                    availableYears={oecdData.availableYears}
+                    selectedYear={selectedYear}
+                    onSelectYear={setSelectedYear}
+                    yearlyProfiles={oecdData.yearlyProfiles}
+                    timeSeriesMetadata={oecdData.timeSeriesMetadata}
                   />
                 </div>
               ) : activeProject.renderingEngine === 'power_bi' ? (

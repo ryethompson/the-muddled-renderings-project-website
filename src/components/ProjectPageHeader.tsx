@@ -1,6 +1,6 @@
 import React from 'react';
 import { Project } from '../types/projects';
-import { Calendar, Github, ExternalLink } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
 interface ProjectPageHeaderProps {
   project: Project;
@@ -8,11 +8,31 @@ interface ProjectPageHeaderProps {
   isParametersOpen?: boolean;
 }
 
+const formatDateToDDMMYYYY = (dateStr: string): string => {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length === 3) {
+    if (parts[0].length === 4) {
+      // YYYY-MM-DD -> DD-MM-YYYY
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    if (parts[2].length === 4) {
+      return dateStr;
+    }
+  }
+  const d = new Date(dateStr);
+  if (!isNaN(d.getTime())) {
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+  return dateStr;
+};
+
 export const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
   project,
 }) => {
-  const repoUrl = project.githubPipelineUrl || 'https://github.com/ryethompson/the-muddled-renderings-project-website';
-
   return (
     <header id="project-page-header" className="w-full max-w-6xl mx-auto pt-6 pb-4 px-4">
       {/* Main Project Title Block */}
@@ -33,20 +53,8 @@ export const ProjectPageHeader: React.FC<ProjectPageHeaderProps> = ({
           <div className="mt-2 text-[10px] font-mono text-white/40 flex items-center gap-2 flex-wrap">
             <span className="flex items-center gap-1">
               <Calendar className="w-3 h-3" />
-              <span>{project.datePublished}</span>
+              <span>{formatDateToDDMMYYYY(project.datePublished)}</span>
             </span>
-            <span>•</span>
-            <a
-              href={repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-medium transition-colors"
-              title="View public repository and pipeline source code on GitHub"
-            >
-              <Github className="w-3 h-3" />
-              <span>GitHub Repository</span>
-              <ExternalLink className="w-2.5 h-2.5 opacity-60" />
-            </a>
           </div>
         </div>
       </div>

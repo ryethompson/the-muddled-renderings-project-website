@@ -51,11 +51,12 @@ export function computeVisualEncoding(
   const bedrockDensity = 0.6 + medianIncomeNorm * 0.4;
 
   // 2. Vertical Spire & Emergent Plumes (Driven by R&D Expenditure)
-  // Height range: 18px (low R&D) to 125px (towering high R&D)
-  const spireHeight = 16 + Math.pow(rdExpenditureNorm, 1.2) * 110;
-  const plumeParticleCount = Math.round(4 + rdExpenditureNorm * 22);
-  const emergenceVelocity = 0.4 + rdExpenditureNorm * 1.6;
-  const branchingComplexity = Math.round(2 + rdExpenditureNorm * 6);
+  // Height range: 22px (low R&D) to 207px (towering high R&D)
+  // Linear uniform sensitivity: exactly equal pixel delta per % of GDP change across all countries
+  const spireHeight = 22 + rdExpenditureNorm * 185;
+  const plumeParticleCount = Math.round(5 + rdExpenditureNorm * 28);
+  const emergenceVelocity = 0.5 + rdExpenditureNorm * 2.0;
+  const branchingComplexity = Math.round(2 + rdExpenditureNorm * 8);
 
   // 3. Cybernetic Vein Lattice (Driven by Digital Intensity of Businesses)
   const latticeFrequency = 3 + Math.round(digitalIntensityNorm * 9);

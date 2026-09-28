@@ -1,11 +1,11 @@
 /**
  * THE MUDDLED RENDERINGS PROJECT
  * Rendering: Mar-a-Techno Archipelago
- * Module: Analytics & Harmonic Modeling Engine
+ * Module: Analytics & Harmonic Modeling Engine (Multi-Year 2014–2024)
  * 
- * Translates multi-source OECD macroeconomic observations into mathematically stable
- * visual dimensions: Bedrock mass, Crystalline spires, Circuitry density, and
- * Particle flow dynamics.
+ * Translates multi-source OECD macroeconomic observations across an 11-year time series
+ * into mathematically stable visual dimensions: Bedrock mass, Crystalline spires, Circuitry density,
+ * and Particle flow dynamics, enforcing the 2-Year Maximum Interpolation Rule.
  */
 
 export interface RawMetrics {
@@ -48,6 +48,11 @@ export interface VisualDimensionalEncoding {
 
 export class HarmonicAnalyticsEngine {
   /**
+   * Maximum permitted interpolation threshold between empirical anchors (years).
+   */
+  public static readonly MAX_INTERPOLATION_GAP = 2;
+
+  /**
    * Normalizes raw indicator values into [0..1] continuous scalar space
    * with outlier clipping at 5th and 95th percentiles.
    */
@@ -56,6 +61,25 @@ export class HarmonicAnalyticsEngine {
     const clipped = Math.max(bounds.p05, Math.min(bounds.p95, value));
     const range = bounds.p95 - bounds.p05;
     return range === 0 ? 0.5 : Math.max(0, Math.min(1, (clipped - bounds.p05) / range));
+  }
+
+  /**
+   * Validates if a target year is mathematically eligible for linear interpolation.
+   */
+  public static isEligibleForInterpolation(
+    targetYear: number,
+    anchorYears: number[]
+  ): boolean {
+    const validAnchors = anchorYears.filter((y) => Math.abs(y - targetYear) <= this.MAX_INTERPOLATION_GAP);
+    return validAnchors.length > 0;
+  }
+
+  /**
+   * Computes annual rate of change (temporal velocity) between two reference periods.
+   */
+  public static calculateGrowthVelocity(val0: number, val1: number, yearsSpan: number): number {
+    if (yearsSpan <= 0 || val0 === 0) return 0;
+    return Math.pow(val1 / val0, 1 / yearsSpan) - 1;
   }
 
   /**

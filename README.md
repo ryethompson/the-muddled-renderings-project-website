@@ -28,11 +28,11 @@ the-muddled-renderings-project-website/
 ├── renderings/                               # Master directory for all renderings and their pipelines
 │   ├── README.md                             # Architectural standard & template for future renderings
 │   └── mar-a-techno-archipelago/             # Dedicated folder for Rendering #1
-│       ├── README.md                         # Detailed rendering specification & artistic premise
-│       ├── pipeline/                         # Data extraction & ETL (OECD SDMX REST API)
+│       ├── README.md                         # Detailed rendering specification & 2-year interpolation methodology
+│       ├── pipeline/                         # Data extraction & ETL (OECD SDMX REST API, 2014–2024)
 │       │   ├── oecd_database_etl.py
 │       │   └── requirements.txt
-│       ├── analytics/                        # Statistical normalization & harmonic resonance engine
+│       ├── analytics/                        # Statistical normalization, harmonic resonance & temporal delta engine
 │       │   └── analytics_engine.ts
 │       ├── visualization/                    # Procedural HTML5 2D Canvas landscape renderer
 │       │   └── landscape_canvas_renderer.ts
@@ -42,10 +42,10 @@ the-muddled-renderings-project-website/
 │           ├── canonical_sample.json
 │           └── schema.json
 ├── src/                                      # Full-stack React web application
-│   ├── components/                           # Canvas visualizers, navigation, metrics & code modal
+│   ├── components/                           # Canvas visualizers, year slider, navigation, metrics & code modal
 │   ├── data/                                 # Project registries & pipeline viewer definitions
 │   ├── lib/                                  # Project storage & state synchronization
-│   └── server/                               # Ingestion engine & OECD dataset adapters
+│   └── server/                               # Ingestion engine, multi-year time series & OECD dataset adapters
 └── package.json
 ```
 
@@ -63,18 +63,25 @@ the-muddled-renderings-project-website/
 * **Target Subject:** 38 OECD Sovereign Member States
 * **Dedicated Rendering Folder:** [`renderings/mar-a-techno-archipelago/`](./renderings/mar-a-techno-archipelago/)
 
+#### Multi-Year Time Series & Methodological Choices:
+1. **Longitudinal Reach (2014–2024):** Incorporates an 11-year annual continuous time series. 2014 was selected as the earliest viable epoch due to the harmonization of the Eurostat Digital Intensity Index (DII) and modern OECD broadband surveys across all 38 member states.
+2. **2-Year Maximum Interpolation Constraint:** To account for biennial or staggered reporting (common in the OECD Income Distribution Database), missing intermediate points are linearly interpolated **strictly if bounded by empirical anchor releases within $\le 2$ calendar years**.
+3. **Strict Rejection Policy:** Any data gap exceeding 2 consecutive years without empirical grounding is rejected and marked as `Missing` (`null`). Speculative extrapolations are forbidden.
+4. **Global Temporal Normalization Standard:** Min/max domain bounds are calculated across the entire 2014–2024 epoch. When dragging the year slider on the website, islands physically expand or shrink in real proportion to authentic macroeconomic growth.
+5. **Interactive Year Slider & Playback:** The live application features an interactive year scrubber (2014–2024), autonomous 60 FPS parameter morphing, and an automated playback loop.
+
 #### Where to Find the Respective Pipeline Files:
 
 | Pipeline Layer | File Path | Function & Technology |
 | :--- | :--- | :--- |
-| **Data Ingestion & ETL** | [`renderings/mar-a-techno-archipelago/pipeline/oecd_database_etl.py`](./renderings/mar-a-techno-archipelago/pipeline/oecd_database_etl.py) | Queries live OECD SDMX REST API endpoints, applies retry backoff, asserts statistical boundaries, and builds canonical datasets (Python). |
-| **Statistical Analytics** | [`renderings/mar-a-techno-archipelago/analytics/analytics_engine.ts`](./renderings/mar-a-techno-archipelago/analytics/analytics_engine.ts) | Computes outlier-clipped robust normalizations (5th/95th percentiles) and cross-indicator harmonic resonance (TypeScript). |
+| **Data Ingestion & ETL** | [`renderings/mar-a-techno-archipelago/pipeline/oecd_database_etl.py`](./renderings/mar-a-techno-archipelago/pipeline/oecd_database_etl.py) | Harvests multi-year OECD SDMX REST API endpoints, applies retry backoff, executes 2-year bounded interpolation, and validates statistical ranges (Python). |
+| **Statistical Analytics** | [`renderings/mar-a-techno-archipelago/analytics/analytics_engine.ts`](./renderings/mar-a-techno-archipelago/analytics/analytics_engine.ts) | Computes outlier-clipped robust normalizations (5th/95th percentiles), temporal growth velocity, and cross-indicator harmonic resonance (TypeScript). |
 | **Canvas Procedural Engine** | [`renderings/mar-a-techno-archipelago/visualization/landscape_canvas_renderer.ts`](./renderings/mar-a-techno-archipelago/visualization/landscape_canvas_renderer.ts) | 60 FPS HTML5 Canvas engine rendering wave equations, geological bedrock, crystalline spires, and particle flows (TypeScript / Canvas 2D). |
 | **CI/CD Automation** | [`renderings/mar-a-techno-archipelago/workflow/oecd_atlas_pipeline.yml`](./renderings/mar-a-techno-archipelago/workflow/oecd_atlas_pipeline.yml) | Scheduled GitHub Actions workflow for autonomous monthly data extraction and build verification. |
-| **Sample Dataset** | [`renderings/mar-a-techno-archipelago/data/canonical_sample.json`](./renderings/mar-a-techno-archipelago/data/canonical_sample.json) | Reference observation payload for 38 OECD nations with raw values and visual dimension mappings. |
+| **Sample Dataset** | [`renderings/mar-a-techno-archipelago/data/canonical_sample.json`](./renderings/mar-a-techno-archipelago/data/canonical_sample.json) | Reference multi-year observation payload for 38 OECD nations with raw values and visual dimension mappings. |
 
 #### Visual Grammar Encodings:
-1. **Median Disposable Income (OECD WISE):** Governs **Geological Bedrock Mass & Footprint Radius** [28–73px]. Higher household income creates expansive, stratified rock foundations.
+1. **Median Disposable Income (OECD WISE):** Governs **Geological Bedrock Mass & Footprint Radius** [36–82px] and strata count [3–8 layers]. Higher household income creates expansive, stratified rock foundations.
 2. **R&D Expenditure as % of GDP (OECD STI MSTI):** Governs **Vertical Crystalline Obelisk Spires** [16–126px height] and photon luminescence.
 3. **Enterprise Digital Intensity (OECD / Eurostat):** Governs **Branching Circuitry Traces** [3–12 rings] radiating through the bedrock and electrical pulse speed.
 4. **Household Internet Access (OECD NAD):** Governs **Atmospheric Aura Radius** [25–100px] and ambient particle drift velocity.
@@ -118,41 +125,8 @@ npm run dev
 ```
 The application will be live at `http://localhost:3000`.
 
-### 4. Run an Individual Rendering Pipeline
-To run the automated data ingestion for **Mar-a-Techno Archipelago**:
-```bash
-# Navigate to the rendering's pipeline directory
-cd renderings/mar-a-techno-archipelago/pipeline
-
-# Install Python requirements
-pip install -r requirements.txt
-
-# Execute extraction & validation
-python oecd_database_etl.py
-```
-
-### 5. Build for Production
+### 4. Build for Production
 ```bash
 npm run build
-npm run lint
 ```
-
----
-
-## 6. Website Features
-
-* **Interactive Procedural Canvas**: Smooth 60 FPS continuous rendering with real-time pan, smooth zoom, and coordinate raycast hit-testing.
-* **Country Node Inspection**: Click on any island in the archipelago to inspect its four raw statistical observations, OECD rank, and visual encoding parameters.
-* **Project Parameters Drawer**: Live adjustment of simulation parameters (velocity speed, particle count, wave turbulence, node glow, field zoom).
-* **In-App Pipeline Code Viewer**: An integrated, syntax-highlighted code inspector modal permitting users to view, copy, or download the exact Python ETL, TypeScript analytics, and Canvas rendering scripts directly in the browser.
-* **Methodology & Quality Assurance**: Transparent documentation of source registries, observation reference periods, and data verification status.
-
----
-
-## 7. Data Provenance & Citation
-
-Data powering The Muddled Renderings Project is sourced from official open statistical databases:
-* **OECD Data Portal & SDMX REST APIs**: National Accounts (`NAD`), Science & Technology (`MSTI`), Wellbeing & Income Distribution (`WISE`).
-* **Eurostat**: Digital Economy and Society Index (DESI) & Harmonized Indicators (`DII`).
-
-All data transformations are deterministic, versioned, and reproducible via the respective rendering pipelines.
+Production output will be generated in `dist/` and served via `server.ts`.

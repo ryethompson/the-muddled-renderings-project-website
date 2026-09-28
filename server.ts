@@ -27,10 +27,11 @@ async function startServer() {
   app.get('/healthz', healthResponse);
 
 
-  // 2. Canonical Atlas Dataset
+  // 2. Canonical Atlas Dataset (Supports multi-year time series 2014-2024)
   app.get('/api/atlas/data', (req, res) => {
     try {
-      const dataset = IngestionEngine.processAtlasDataset();
+      const yearParam = req.query.year ? Number(req.query.year) : 2024;
+      const dataset = IngestionEngine.processAtlasDataset(yearParam);
       res.json(dataset);
     } catch (err: any) {
       res.status(500).json({ error: 'Failed to process dataset', message: err?.message });

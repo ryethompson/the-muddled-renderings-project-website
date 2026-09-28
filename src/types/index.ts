@@ -58,7 +58,7 @@ export interface Observation {
   publicationDate: string;
   retrievedAt: string;
   revisionStatus: 'Initial' | 'Revised' | 'Final';
-  qualityStatus: 'Verified' | 'Provisional' | 'Estimated' | 'Missing';
+  qualityStatus: 'Verified' | 'Provisional' | 'Estimated' | 'Interpolated' | 'Missing';
   notes?: string;
 }
 
@@ -155,6 +155,18 @@ export interface VisualEncoding {
   phaseOffset: number;            // Deterministic hash based on country code
 }
 
+export interface TimeSeriesSummary {
+  startYear: number;
+  endYear: number;
+  availableYears: number[];
+  selectedYear: number;
+  interpolationMaxGap: number;
+  totalVerified: number;
+  totalInterpolated: number;
+  totalMissing: number;
+  methodology: string;
+}
+
 export interface AtlasDatasetResponse {
   atlasTitle: string;
   edition: string;
@@ -166,4 +178,8 @@ export interface AtlasDatasetResponse {
   indicators: Indicator[];
   qualityReport: DataQualityReport;
   dataOrigin: 'DATABASE_BACKED_CANONICAL' | 'SIMULATED_INGESTION_RUN';
+  availableYears: number[];
+  selectedYear: number;
+  yearlyProfiles: Record<number, CountryEconomicProfile[]>;
+  timeSeriesMetadata: TimeSeriesSummary;
 }

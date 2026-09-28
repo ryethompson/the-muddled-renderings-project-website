@@ -254,7 +254,7 @@ export function drawCountryLandscape(
 
   // Draw central crystalline spire / obelisk
   ctx.beginPath();
-  const spireBaseW = 4 + normalized.rdExpenditureNorm * 8;
+  const spireBaseW = 4.5 + normalized.rdExpenditureNorm * 9.5;
   const spireMidW = spireBaseW * 0.6;
   const spireBaseY = -encoding.elevationHeight * 0.6;
 
