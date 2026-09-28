@@ -1,6 +1,6 @@
 # The Muddled Renderings Project
 
-> **An exploratory research project translating complex socio-economic realities into living digital landscapes, with the goal to critically inquire the ways data comes to represent reality.**
+> **An exploratory research project translating complex socio-economic realities into living digital landscapes, with the goal of critically inquiring the ways data comes to represent reality.**
 
 [![Live Web Application](https://img.shields.io/badge/Live%20App-Online-brightgreen)](https://ais-dev-izqtd3eyx62tvdpyveoioe-314342441459.europe-west2.run.app)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-blue)](https://nodejs.org/)
@@ -12,9 +12,7 @@
 
 ## 1. About the Project
 
-**The Muddled Renderings Project** reimagines how we observe and understand institutional data. Rather than confining complex realities to tabular spreadsheets, static reports, or flat charts, this project renders statistics as an evolving procedural terrain.
-
-Every rendering is a computational ecosystem where empirical indicators are directly mapped to physical and spatial visual attributes.
+**The Muddled Renderings Project** is an ongoing visual inquiry into the ways empirical data comes to represent economic inequalities as reality. Drawing on real-world datasets, analytical pipelines, and generative mechanisms, this open source project transforms statistical abstractions into living digital landscapes: shifting terrains where numbers acquire form, relationships become spatial, and patterns emerge and dissolve. In doing so, the project challenges not only what data reveals about economic inequalities, but also what is distorted, obscured, or lost when complex realities are rendered legible through measurement. 
 
 ---
 
