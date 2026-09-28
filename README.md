@@ -69,11 +69,10 @@ the-muddled-renderings-project-website/
 
 ---
 
-## 3. Publishing Future Renderings
+## 3. Publishing Future Renderings (Note to Self)
 
 As new renderings are created, each shall be published with its own self-contained pipeline folder:
 
-# Note to Self #
 1. Create a dedicated directory: `renderings/<rendering-slug>/`
 2. Follow the standard subfolder structure (`pipeline/`, `analytics/`, `visualization/`, `workflow/`, `data/`).
 3. Include a comprehensive `README.md` in the rendering folder detailing the inquiry, premise, and execution steps.
