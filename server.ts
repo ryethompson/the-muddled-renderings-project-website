@@ -14,7 +14,7 @@ import { PIPELINE_CODE_FILES, PIPELINE_REPOSITORY_URL } from './src/data/pipelin
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json());
 
