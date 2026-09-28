@@ -264,6 +264,8 @@ export function App() {
       {/* 3. Bottom Banner: Mission Statement (Left) & Pipeline Last Updated / Release Note & GitHub Link (Right) */}
       <BottomBanner
         lastUpdated={oecdData?.generatedAt}
+        renderingDate={activeProject?.datePublished}
+        websiteVersion="v1.4 (September, 2026)"
         pipelineGithubUrl={activeProject?.githubPipelineUrl || 'https://github.com/ryethompson/the-muddled-renderings-project-website'}
       />
 

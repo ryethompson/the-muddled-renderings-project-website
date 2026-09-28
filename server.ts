@@ -8,13 +8,21 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
 import { IngestionEngine } from './src/server/ingestionEngine';
 import { OECD_SOURCES, INDICATORS } from './src/server/data/oecdDataset';
 import { PIPELINE_CODE_FILES, PIPELINE_REPOSITORY_URL } from './src/data/pipelineCode';
 
+const currentDir = typeof __dirname !== 'undefined'
+  ? __dirname
+  : (typeof import.meta !== 'undefined' && import.meta.url ? path.dirname(fileURLToPath(import.meta.url)) : process.cwd());
+
 async function startServer() {
   const app = express();
-  const PORT = Number(process.env.PORT) || 3000;
+  // Support --port CLI argument passed by control-plane, or default to 3000 for AI Studio dev container
+  const portArgIndex = process.argv.indexOf('--port');
+  const cliPort = portArgIndex !== -1 && process.argv[portArgIndex + 1] ? Number(process.argv[portArgIndex + 1]) : null;
+  const PORT = cliPort || (process.env.K_SERVICE && process.env.PORT && process.env.PORT !== '8080' ? Number(process.env.PORT) : 3000);
 
   app.use(express.json());
 
@@ -119,23 +127,63 @@ async function startServer() {
     });
   });
 
-  // Robust production detection (Cloud Run sets K_SERVICE, but not always NODE_ENV)
-  const distPath = path.join(process.cwd(), 'dist');
-  const hasDistIndex = fs.existsSync(path.join(distPath, 'index.html'));
-  const isProduction = process.env.NODE_ENV === 'production' || !!process.env.K_SERVICE || hasDistIndex;
+  // Robust production detection and static file resolution
+  const candidateDistPaths = [
+    path.join(process.cwd(), 'dist'),
+    path.resolve('./dist'),
+    path.resolve(currentDir, 'dist'),
+    currentDir,
+    path.resolve(currentDir, '..', 'dist'),
+  ];
 
-  if (!isProduction) {
+  let resolvedDistPath = candidateDistPaths.find((p) => {
+    try {
+      return fs.existsSync(path.join(p, 'index.html'));
+    } catch {
+      return false;
+    }
+  });
+
+  // If dist/index.html is not found anywhere, attempt an on-the-fly vite build
+  if (!resolvedDistPath) {
+    console.log('[Server] dist/index.html not found. Attempting on-demand vite build...');
+    try {
+      const { execSync } = await import('child_process');
+      execSync('npx vite build', { stdio: 'inherit' });
+      resolvedDistPath = candidateDistPaths.find((p) => {
+        try {
+          return fs.existsSync(path.join(p, 'index.html'));
+        } catch {
+          return false;
+        }
+      });
+    } catch (buildErr) {
+      console.warn('[Server] On-demand vite build fallback encountered:', buildErr);
+    }
+  }
+
+  if (resolvedDistPath && fs.existsSync(path.join(resolvedDistPath, 'index.html'))) {
+    console.log(`[Server] Serving production static files from: ${resolvedDistPath}`);
+    app.use(express.static(resolvedDistPath));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api/') || req.path.startsWith('/health')) {
+        return next();
+      }
+      const indexPath = path.join(resolvedDistPath!, 'index.html');
+      if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+      } else {
+        res.status(404).send('Not Found');
+      }
+    });
+  } else {
+    console.log('[Server] Mounting dynamic Vite middleware fallback');
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
-  } else {
-    app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
   }
 
   app.listen(PORT, '0.0.0.0', () => {
