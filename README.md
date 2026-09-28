@@ -1,6 +1,6 @@
 # The Muddled Renderings Project
 
-> **An exploratory art-science platform translating complex macroeconomic, socio-technical, and environmental datasets into living procedural digital landscapes.**
+> **An exploratory research project translating complex socio-economic realities into living digital landscapes, with the goal to critically inquire the ways data comes to represent reality.**
 
 [![Live Web Application](https://img.shields.io/badge/Live%20App-Online-brightgreen)](https://ais-dev-izqtd3eyx62tvdpyveoioe-314342441459.europe-west2.run.app)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-blue)](https://nodejs.org/)
@@ -12,9 +12,9 @@
 
 ## 1. About the Project
 
-**The Muddled Renderings Project** reimagines how we observe and understand institutional data. Rather than confining critical economic and technological realities to tabular spreadsheets, static reports, or flat charts, this platform renders statistics as an evolving procedural terrain.
+**The Muddled Renderings Project** reimagines how we observe and understand institutional data. Rather than confining complex realities to tabular spreadsheets, static reports, or flat charts, this project renders statistics as an evolving procedural terrain.
 
-Every rendering is a computational ecosystem where empirical indicators are directly mapped to physical and spatial visual attributes: geological bedrock volume, crystalline vertical spires, electric circuitry traces, and atmospheric particle drifts.
+Every rendering is a computational ecosystem where empirical indicators are directly mapped to physical and spatial visual attributes.
 
 ---
 
@@ -56,11 +56,6 @@ the-muddled-renderings-project-website/
 ### Rendering #1: Mar-a-Techno Archipelago
 
 * **Status:** Published & Active
-* **Research Inquiry:**
-  > *"A visualisation of the relationship between median disposable income, national R&D expenditure, and digital integration in the OECD"*
-* **Artistic Premise:**
-  > *"In a disparate ocean, hotspots emerge. An archipelago develops; islands grow and contract in form, fed by the ever-violent outbursts of capital expenditure. Spires rise and shape the horizon, while volcanic sediment hardens into intricate circuitries. Ruffled by aura and the unknown, the islands expand and recede in size, competing for finite space in a volatile ecosystem."*
-* **Target Subject:** 38 OECD Sovereign Member States
 * **Dedicated Rendering Folder:** [`renderings/mar-a-techno-archipelago/`](./renderings/mar-a-techno-archipelago/)
 
 #### Multi-Year Time Series & Methodological Choices:
@@ -90,8 +85,9 @@ the-muddled-renderings-project-website/
 
 ## 4. Publishing Future Renderings
 
-As new renderings are created, each must be published with its own self-contained pipeline folder:
+As new renderings are created, each shall be published with its own self-contained pipeline folder:
 
+# Note to Self #
 1. Create a dedicated directory: `renderings/<rendering-slug>/`
 2. Follow the standard subfolder structure (`pipeline/`, `analytics/`, `visualization/`, `workflow/`, `data/`).
 3. Include a comprehensive `README.md` in the rendering folder detailing the inquiry, premise, and execution steps.
