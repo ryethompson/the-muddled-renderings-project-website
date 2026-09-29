@@ -3,7 +3,7 @@
   "entities": {
     "countries": {
       "title": "renderings",
-      "description": [] ,
+      "description": ,
       "type": "object",
       "properties": {
         "id": { "type": "string" },
@@ -32,7 +32,7 @@
     },
     "observations": {
       "title": "Statistical Observations",
-      "description": [] ,
+      "description": ,
       "type": "object",
       "properties": {
         "id": { "type": "string" },
