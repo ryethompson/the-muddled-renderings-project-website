@@ -1,6 +1,6 @@
 {
   "name": "The Muddled Renderings Project",
-  "description": [],
-  "requestFramePermissions": [],
+  "description": ,
+  "requestFramePermissions": ,
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
