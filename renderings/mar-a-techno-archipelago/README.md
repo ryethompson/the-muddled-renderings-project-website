@@ -1,16 +1,12 @@
 # Mar-a-Techno Archipelago
 
-> **Research Inquiry:** *A visualisation of the relationship between median disposable income, national R&D expenditure, and digital integration in the OECD*
+> *A visualisation of the relationship between median disposable income, national R&D expenditure, and digital integration in the OECD*
 
 ---
 
-## 1. Overview & Artistic Premise
+## 1. Annotation
 
 > *"In a disparate ocean, hotspots emerge. An archipelago develops; islands grow and contract in form, fed by the ever-violent outbursts of capital expenditure. Spires rise and shape the horizon, while volcanic sediment hardens into intricate circuitries. Ruffled by aura and the unknown, the islands expand and recede in size, competing for finite space in a volatile ecosystem."*
-
-**Mar-a-Techno Archipelago** is the flagship generative rendering of **The Muddled Renderings Project**. It translates tabular, multi-dimensional macroeconomic and technological datasets from all 38 member states of the OECD into a living procedural island archipelago rendered on HTML5 2D Canvas.
-
-Instead of static bar charts or multidimensional scatter plots, national economic performance is visualized as an organic topological territory where geological mass, towering obelisks, glowing circuitry veins, and atmospheric particle drifts reflect real-world empirical metrics across time.
 
 ---
 
@@ -25,27 +21,27 @@ To maximize historical reach while maintaining scientific validity, the series g
 - 2014 corresponds with the OECD Frascati Manual 7th Edition revisions for R&D capital expenditure accounting.
 
 ### 2.2 The 2-Year Maximum Interpolation Protocol
-Because national statistical bureaus publish surveys on staggered, biennial, or irregular reporting cadences (especially the OECD Income Distribution Database), our ingestion engine enforces a strict mathematical interpolation rule:
+Because national statistical bureaus publish surveys on staggered, biennial, or irregular reporting cadences (especially the OECD Income Distribution Database), the ingestion engine enforces a strict  interpolation rule:
 
-1. **Empirical Anchor Priority:** All verified statistical releases are ingested directly and tagged with `qualityStatus: 'Verified'`.
-2. **2-Year Maximum Bounded Window:** If an observation is missing for year $t$, it may **only** be interpolated if empirical anchor observations exist within **$\le 2$ calendar years** ($|t - t_{\text{anchor}}| \le 2$).
-3. **Exact Linear Interpolation Formula:**
+1. All verified statistical releases are ingested directly and tagged with `qualityStatus: 'Verified'`.
+2. If an observation is missing for year $t$, it may **only** be interpolated if empirical anchor observations exist within **$\le 2$ calendar years** ($|t - t_{\text{anchor}}| \le 2$).
+3. Exact Linear Interpolation Formula:
    $$\hat{y}(t) = y(t_0) + \frac{t - t_0}{t_1 - t_0} \cdot \bigl(y(t_1) - y(t_0)\bigr)$$
    *Subject to:* $t_0 < t < t_1$, with $(t_1 - t_0) \le 3$ years and $\max(t - t_0, t_1 - t) \le 2$ years.
-4. **Bounded Boundary Projection:** For edge years (such as preliminary lag in 2024 reporting), observations may be held or projected from the nearest anchor up to a maximum of $\le 2$ calendar years, flagged explicitly as `qualityStatus: 'Interpolated'`.
-5. **Strict Rejection of Speculative Data:** Any data gap exceeding 2 consecutive years without empirical grounding is **strictly categorized as `Missing`** (`null` value). Speculative curve fitting or multi-year extrapolations are prohibited.
-6. **Provenance & Inspection:** Every single observation maintains an audit note (e.g., `Linear interpolation between 2018 (32,400) and 2020 (35,100) under 2-year boundary constraint`).
+4. For edge years (such as preliminary lag in 2024 reporting), observations may be held or projected from the nearest anchor up to a maximum of $\le 2$ calendar years, flagged explicitly as `qualityStatus: 'Interpolated'`.
+5. Any data gap exceeding 2 consecutive years without empirical grounding is **strictly categorized as `Missing`** (`null` value). Speculative curve fitting or multi-year extrapolations are prohibited.
+6. Every single observation maintains an audit note (e.g., `Linear interpolation between 2018 (32,400) and 2020 (35,100) under 2-year boundary constraint`).
 
-### 2.3 Global Temporal Normalization Standard
+### 2.3 Visualisation explaination
 To ensure visual integrity as the user scrubs through time:
 - The min/max normalization domain is computed **globally across the entire 2014–2024 epoch** rather than recalculated per individual year.
-- *Visual Significance:* As median incomes rise over the decade, islands visibly expand in landform footprint. As R&D investments climb in high-tech economies, spires tower upwards. Real economic expansion translates into organic physical growth.
+- *Visual Significance:* As median incomes rise over the decade, islands visibly expand in landsize. As R&D investments climb in high-tech economies, spires become taller. If the Digital Intensity of Businesses increases, extra circuit nodes are added. If the percentage of Household internet access increases, aura particles are increasingly emitted. 
 
 ---
 
-## 3. Visual Grammar & Indicator Encodings
+## 3. Indicators
 
-Every island represents one of the 38 OECD sovereign economies. Its generative geometry is computed directly from four harmonized statistical series:
+Every island represents one of the 38 OECD national economies. Its generative geometry is computed directly from four harmonized statistical series:
 
 | Visual Element | Statistical Indicator | Source Agency & Registry | Dimension & Transformation |
 | :--- | :--- | :--- | :--- |
@@ -56,20 +52,17 @@ Every island represents one of the 38 OECD sovereign economies. Its generative g
 
 ---
 
-## 4. Interactive Time Series Slider Tool on the Website
+## 4. Interactive Time Series Slider Tool 
 
 On the live website, visitors can interact with the 2014–2024 dataset using:
 - **Interactive Scrubber Slider:** Drag across years 2014 to 2024 to watch the archipelago morph organically in real time.
-- **Autonomous Playback (`▶` / `⏸`):** Automated 1.4-second stepped progression through the entire decade.
 - **60 FPS Parameter Morphing:** The canvas smoothly lerps terrain footprint, spire height, and lattice densities between years without abrupt visual jumping.
 - **Country Annotation Inspector:** Clicking any island reveals its exact empirical values for the active year, complete with `[Verified]` or `[Interpolated ≤2yr]` provenance badges.
 - **Macro HUD Summary:** Real-time calculation of OECD-wide average median disposable income, R&D intensity, and digital intensity for the active year.
 
 ---
 
-## 5. Dedicated Pipeline Directory Structure
-
-In accordance with The Muddled Renderings Project architecture, this rendering is completely self-contained within its own directory:
+## 5. Pipeline Structure
 
 ```
 renderings/mar-a-techno-archipelago/
