@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { CountryEconomicProfile, Indicator } from '../types';
-import { X, ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
+import { X, ExternalLink, AlertCircle } from 'lucide-react';
 import { BedrockIcon, SpireIcon, CircuitsIcon, AuraIcon } from './VisualGrammarIcons';
 
 interface CountryAnnotationCardProps {
@@ -41,17 +41,6 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
   };
 
   const renderStatusBadge = (status?: string, notes?: string) => {
-    if (status === 'Verified') {
-      return (
-        <span 
-          title="Verified official statistical release" 
-          className="inline-flex items-center gap-1 text-[9px] font-mono text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded border border-emerald-400/20"
-        >
-          <CheckCircle2 size={10} />
-          Verified
-        </span>
-      );
-    }
     if (status === 'Interpolated') {
       return (
         <span 
@@ -63,11 +52,14 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
         </span>
       );
     }
-    return (
-      <span className="inline-flex items-center text-[9px] font-mono text-red-400 bg-red-400/10 px-1.5 py-0.5 rounded border border-red-400/20">
-        Missing (&gt;2yr)
-      </span>
-    );
+    if (status === 'Missing') {
+      return (
+        <span className="inline-flex items-center text-[9px] font-mono text-red-400 bg-red-400/10 px-1.5 py-0.5 rounded border border-red-400/20">
+          Missing (&gt;2yr)
+        </span>
+      );
+    }
+    return null;
   };
 
   return (

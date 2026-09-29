@@ -97,8 +97,8 @@ export const Navigation: React.FC<NavigationProps> = ({
                   className="absolute right-0 mt-2 w-72 rounded-xl bg-[#0e1017] border border-white/15 shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-1"
                 >
                   <div className="px-2 py-1 mb-1">
-                    <span className="text-[10px] font-mono text-white/40 uppercase">
-                      Select Project ({projects.length})
+                    <span className="text-[10px] font-mono text-white/40">
+                      select rendering ({projects.length})
                     </span>
                   </div>
 

@@ -194,7 +194,7 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#07080b] text-[#e2e4ec] selection:bg-amber-500/30 selection:text-white relative font-sans">
+    <div className="min-h-screen min-w-[1152px] flex flex-col justify-between bg-[#07080b] text-[#e2e4ec] selection:bg-amber-500/30 selection:text-white relative font-sans">
       {/* 1. Global Navigation / Top Banner (Logo, Name, Project Selection) */}
       <Navigation
         projects={projects}
