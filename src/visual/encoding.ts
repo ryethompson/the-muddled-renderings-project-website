@@ -44,25 +44,27 @@ export function computeVisualEncoding(
   } = normalized;
 
   // 1. Bedrock & Terrain Mass (Driven by Median Disposable Income)
-  // Scale range: 38px (low) to 92px (high)
-  const baseRadius = 36 + medianIncomeNorm * 46;
-  const elevationHeight = 20 + medianIncomeNorm * 40;
-  const layerCount = Math.round(3 + medianIncomeNorm * 5); // 3 to 8 geological strata layers
-  const bedrockDensity = 0.6 + medianIncomeNorm * 0.4;
+  // Amplified Covariate Sensitivity: linear uniform weighting across all countries so subtle
+  // shifts in median disposable income create dramatic, clearly discernible geological landform changes
+  const baseRadius = 32 + medianIncomeNorm * 68;
+  const elevationHeight = 18 + medianIncomeNorm * 88;
+  const layerCount = Math.round(3 + medianIncomeNorm * 9); // 3 to 12 geological strata layers
+  const bedrockDensity = 0.5 + medianIncomeNorm * 0.9;
 
   // 2. Vertical Spire & Emergent Plumes (Driven by R&D Expenditure)
-  // Height range: 22px (low R&D) to 207px (towering high R&D)
-  // Linear uniform sensitivity: exactly equal pixel delta per % of GDP change across all countries
-  const spireHeight = 22 + rdExpenditureNorm * 185;
-  const plumeParticleCount = Math.round(5 + rdExpenditureNorm * 28);
-  const emergenceVelocity = 0.5 + rdExpenditureNorm * 2.0;
-  const branchingComplexity = Math.round(2 + rdExpenditureNorm * 8);
+  // Height range: 24px (low R&D) to 364px (towering high R&D)
+  // Linear uniform sensitivity: increased covariate weight so subtle changes in % of GDP cause amplified, unmistakably visible changes in spire elevation
+  const spireHeight = 24 + rdExpenditureNorm * 340;
+  const plumeParticleCount = Math.round(6 + rdExpenditureNorm * 38);
+  const emergenceVelocity = 0.6 + rdExpenditureNorm * 3.0;
+  const branchingComplexity = Math.round(2 + rdExpenditureNorm * 10);
 
   // 3. Cybernetic Vein Lattice (Driven by Digital Intensity of Businesses)
-  const latticeFrequency = 3 + Math.round(digitalIntensityNorm * 9);
-  const veinPulseSpeed = 0.6 + digitalIntensityNorm * 2.2;
+  // Heightened dynamic range: density, pulsing tempo, and trace brilliance multiply visibly as businesses adopt digital tech over time
+  const latticeFrequency = 4 + Math.round(digitalIntensityNorm * 14);
+  const veinPulseSpeed = 0.8 + digitalIntensityNorm * 3.2;
   const crystallineAngle = Math.PI / (3 + Math.round((1 - digitalIntensityNorm) * 4));
-  const internalTextureAlpha = 0.25 + digitalIntensityNorm * 0.55;
+  const internalTextureAlpha = 0.35 + digitalIntensityNorm * 0.65;
 
   // 4. Coherence Aura & Flow Smoothness (Driven by Household Internet Access)
   const coherenceAuraRadius = baseRadius * (1.2 + internetAccessNorm * 0.8);

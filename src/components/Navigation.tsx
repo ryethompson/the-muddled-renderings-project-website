@@ -118,21 +118,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                       >
                         <div className="truncate mr-2">
                           <div className="truncate">{p.title}</div>
-                          {p.subtitle && (
-                            <div className="text-[10px] text-white/40 font-normal truncate">
-                              {p.subtitle}
-                            </div>
-                          )}
                         </div>
-                        {p.id === 'test' ? (
-                          <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 shrink-0">
-                            Canonical
-                          </span>
-                        ) : p.renderingEngine === 'power_bi' ? (
-                          <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-[#f2c811]/20 text-[#f2c811] shrink-0 font-medium">
-                            Power BI
-                          </span>
-                        ) : null}
                       </button>
                     ))}
                   </div>

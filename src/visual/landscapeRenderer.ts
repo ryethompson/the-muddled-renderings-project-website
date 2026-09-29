@@ -192,9 +192,10 @@ export function drawCountryLandscape(
     ctx.fillStyle = strataGrad;
     ctx.fill();
 
-    // Topographic edge highlight
-    ctx.strokeStyle = `hsla(${strataHue}, 80%, ${shadeL + 25}%, ${0.25 + (l / layers) * 0.35})`;
-    ctx.lineWidth = 1;
+    // Topographic edge highlight with amplified bedrock density sensitivity
+    const edgeThickness = 0.75 + encoding.bedrockDensity * 0.9;
+    ctx.strokeStyle = `hsla(${strataHue}, 80%, ${shadeL + 25}%, ${0.25 + (l / layers) * 0.45 * (encoding.bedrockDensity * 0.9)})`;
+    ctx.lineWidth = edgeThickness;
     ctx.stroke();
   }
 
@@ -208,7 +209,7 @@ export function drawCountryLandscape(
 
     ctx.save();
     ctx.strokeStyle = `hsla(${encoding.baseHue + 60}, 90%, 75%, ${encoding.internalTextureAlpha * (0.4 + pulsePhase * 0.6)})`;
-    ctx.lineWidth = 0.9;
+    ctx.lineWidth = 0.8 + normalized.digitalIntensityNorm * 1.5;
 
     const nodes: { x: number; y: number }[] = [];
     const nodeCount = encoding.latticeFrequency;
@@ -236,11 +237,12 @@ export function drawCountryLandscape(
     }
     ctx.stroke();
 
-    // Node micro-sparks
+    // Node micro-sparks scale with business digital intensity
+    const sparkRadius = 1.0 + normalized.digitalIntensityNorm * 1.6;
     for (const node of nodes) {
       ctx.fillStyle = `hsla(${encoding.baseHue + 80}, 95%, 85%, ${0.5 + pulsePhase * 0.5})`;
       ctx.beginPath();
-      ctx.arc(node.x, node.y, 1.2, 0, Math.PI * 2);
+      ctx.arc(node.x, node.y, sparkRadius, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.restore();
@@ -254,7 +256,7 @@ export function drawCountryLandscape(
 
   // Draw central crystalline spire / obelisk
   ctx.beginPath();
-  const spireBaseW = 4.5 + normalized.rdExpenditureNorm * 9.5;
+  const spireBaseW = 4.5 + normalized.rdExpenditureNorm * 12;
   const spireMidW = spireBaseW * 0.6;
   const spireBaseY = -encoding.elevationHeight * 0.6;
 
@@ -314,38 +316,38 @@ export function drawCountryLandscape(
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Delicate reticle indicators
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.arc(0, spireApexY - 10, 2.5, 0, Math.PI * 2);
-    ctx.fill();
 
-    // Subtle inspection ring
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-    ctx.beginPath();
-    ctx.arc(0, spireApexY - 10, 8 + Math.sin(time * 3) * 2, 0, Math.PI * 2);
-    ctx.stroke();
   }
 
-  // Country ISO & Name Typography
+  // Country Name Typography
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-
-  // ISO Code Badge
-  ctx.font = '500 10px var(--font-mono, monospace)';
-  ctx.fillStyle = isSelected ? '#ffffff' : 'rgba(215, 222, 240, 0.7)';
-  ctx.fillText(country.isoCode, 0, labelY - 4);
-
-  // Full Country Name (Understated)
-  ctx.font = '400 11px var(--font-sans, "Plus Jakarta Sans", sans-serif)';
-  ctx.fillStyle = isSelected ? '#ffffff' : 'rgba(165, 175, 200, 0.55)';
-  ctx.fillText(country.name, 0, labelY + 11);
+  ctx.font = '500 11px var(--font-sans, "Plus Jakarta Sans", sans-serif)';
+  ctx.fillStyle = isSelected ? '#ffffff' : 'rgba(185, 195, 220, 0.65)';
+  ctx.fillText(country.name, 0, labelY);
 
   ctx.restore();
 }
 
 /**
- * Helper to test if a point (canvas coordinates) clicks on a country landscape
+ * Tests if point (px, py) is strictly inside a 2D polygon defined by vertices
+ */
+function isPointInPolygon(px: number, py: number, vertices: { x: number; y: number }[]): boolean {
+  let inside = false;
+  for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i++) {
+    const xi = vertices[i].x;
+    const yi = vertices[i].y;
+    const xj = vertices[j].x;
+    const yj = vertices[j].y;
+    const intersect = yi > py !== yj > py && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi;
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+/**
+ * Precise hit-test to determine if a canvas coordinate overlaps with the
+ * country's bedrock shape, strata layers, spire, or footprint.
  */
 export function hitTestCountry(
   canvasX: number,
@@ -353,14 +355,101 @@ export function hitTestCountry(
   profile: CountryEconomicProfile,
   state: FieldRenderState
 ): boolean {
-  const { width, height, camera } = state;
+  const { width, height, camera, time = 0, reducedMotion = false } = state;
   const worldX = (canvasX - width / 2 - camera.x) / camera.zoom;
   const worldY = (canvasY - height / 2 - camera.y) / camera.zoom;
 
-  const dx = worldX - profile.country.fieldPosition.x;
-  const dy = worldY - profile.country.fieldPosition.y;
+  const { country, encoding, normalized } = profile;
+  const dx = worldX - country.fieldPosition.x;
+  const dy = worldY - country.fieldPosition.y;
 
-  // Hit area approximates the landscape's base radius + elevation
-  const hitRadius = Math.max(35, profile.encoding.baseRadius * 0.9);
-  return Math.hypot(dx, dy + profile.encoding.elevationHeight * 0.3) <= hitRadius;
+  const isSelected = state.selectedCountryId === country.id;
+  const animTime = reducedMotion ? 0 : time;
+  const breathTime = animTime * encoding.breathingFrequency + encoding.phaseOffset;
+  const breath = Math.sin(breathTime);
+  const breathScale = 1 + breath * 0.035 * (isSelected ? 0.4 : 1.0);
+  const breathElevation = breath * encoding.oscillationAmplitude * 0.5;
+
+  // Local unscaled coordinates relative to country center
+  const lx = dx / breathScale;
+  const ly = dy / breathScale;
+
+  const r = encoding.baseRadius;
+  const layers = encoding.layerCount;
+
+  // Fast bounding box rejection
+  const maxBedrockTop = -encoding.elevationHeight * 1.25 - (encoding.spireHeight + breath * 4);
+  const maxBedrockBottom = r * 0.65 + 32;
+  const maxBedrockWidth = r * 1.35;
+
+  if (Math.abs(lx) > maxBedrockWidth || ly < maxBedrockTop || ly > maxBedrockBottom) {
+    return false;
+  }
+
+  // 1. Test each geological bedrock strata plate polygon (from back to front)
+  for (let l = layers; l >= 1; l--) {
+    const layerRatio = l / layers;
+    const layerRadius = r * (0.45 + layerRatio * 0.55);
+    const layerHeight =
+      encoding.elevationHeight * (1 - layerRatio * 0.75) + breathElevation * layerRatio;
+    const yOffset = (layerRatio - 1) * (encoding.elevationHeight * 0.45);
+
+    const points = 18;
+    const poly: { x: number; y: number }[] = [];
+    for (let p = 0; p <= points; p++) {
+      const angle = (p / points) * Math.PI * 2;
+      const wave1 = Math.sin(angle * 3 + l + encoding.phaseOffset) * (r * 0.08);
+      const wave2 = Math.cos(angle * 5 - l * 0.5) * (r * 0.04);
+      const dist = layerRadius + wave1 + wave2;
+
+      const px = Math.cos(angle) * dist;
+      const py = Math.sin(angle) * (dist * 0.42) - layerHeight + yOffset;
+      poly.push({ x: px, y: py });
+    }
+
+    if (isPointInPolygon(lx, ly, poly)) {
+      return true;
+    }
+  }
+
+  // 2. Test continuous bedrock volume / footprint plate
+  // (the geological rock body connecting strata layers)
+  const baseY = breathElevation;
+  const topY = -encoding.elevationHeight * 0.85;
+  if (ly >= topY && ly <= r * 0.48) {
+    const t = Math.max(0, Math.min(1, (ly - topY) / (baseY - topY + r * 0.48)));
+    const effRadius = r * (0.48 + t * 0.56);
+    const effCenterY = topY + t * (baseY - topY);
+    const normX = lx / effRadius;
+    const normY = (ly - effCenterY) / (effRadius * 0.43);
+    if (normX * normX + normY * normY <= 1.05) {
+      return true;
+    }
+  }
+
+  // 3. Test Central Crystalline Spire / Obelisk
+  const spireH = encoding.spireHeight + breath * 4;
+  const spireApexY = -encoding.elevationHeight * 0.7 - spireH;
+  const spireBaseW = 4.5 + normalized.rdExpenditureNorm * 9.5;
+  const spireMidW = spireBaseW * 0.6;
+  const spireBaseY = -encoding.elevationHeight * 0.6;
+
+  const spirePoly = [
+    { x: -spireBaseW, y: spireBaseY },
+    { x: -spireMidW, y: spireBaseY - spireH * 0.5 },
+    { x: 0, y: spireApexY },
+    { x: spireMidW, y: spireBaseY - spireH * 0.5 },
+    { x: spireBaseW, y: spireBaseY },
+  ];
+  if (isPointInPolygon(lx, ly, spirePoly)) {
+    return true;
+  }
+
+  // 4. Test Country Label (ISO badge & country name)
+  const labelY = r * 0.55 + 18;
+  if (Math.abs(lx) <= 38 && ly >= labelY - 14 && ly <= labelY + 22) {
+    return true;
+  }
+
+  return false;
 }

@@ -247,12 +247,12 @@ export interface StatisticalBounds {
 
 export interface VisualDimensionalEncoding {
   // Dimension 1: Geological Bedrock (Median Disposable Income)
-  bedrockMass: number;          // [0..1] Base width and volumetric mass
-  strataCount: number;          // [3..8] Number of geological rock tiers
+  bedrockMass: number;          // Base width and volumetric mass (amplified covariate weight)
+  strataCount: number;          // [3..12] Number of geological rock tiers
   terrainRoughness: number;     // [0.2..0.9] Fractal jaggedness
 
   // Dimension 2: Crystalline Spires (R&D Expenditure % GDP)
-  spireHeight: number;          // [10..180px] Vertical obelisk prominence
+  spireHeight: number;          // [24..364px] Vertical obelisk prominence (amplified covariate weight)
   crystalClarity: number;       // [0..1] Transparency and light refraction
   emergenceRate: number;        // [0.4..2.5] Autonomous pulse frequency
 
@@ -331,13 +331,13 @@ export class AnalyticsEngine {
     const resonance = this.computeHarmonicResonance(netNorm, rdNorm, digNorm);
 
     return {
-      // 1. Bedrock mass scales with median disposable income
-      bedrockMass: 0.25 + incNorm * 0.75,
-      strataCount: Math.round(3 + incNorm * 5),
+      // 1. Bedrock mass scales with median disposable income (amplified covariate sensitivity)
+      bedrockMass: 0.2 + incNorm * 1.0,
+      strataCount: Math.round(3 + incNorm * 9),
       terrainRoughness: 0.3 + (1.0 - digNorm) * 0.5,
 
-      // 2. Spires emerge proportionally to R&D expenditure
-      spireHeight: 18 + rdNorm * 150,
+      // 2. Spires emerge proportionally to R&D expenditure (heightened linear uniform covariate)
+      spireHeight: 24 + rdNorm * 340,
       crystalClarity: 0.35 + rdNorm * 0.65,
       emergenceRate: 0.5 + rdNorm * 1.8,
 

@@ -37,6 +37,33 @@ interface AtlasCanvasProps {
   timeSeriesMetadata?: TimeSeriesSummary;
 }
 
+/**
+ * Computes default canvas framing so that outer landmark countries:
+ * - Canada on the west (left boundary)
+ * - Australia on the east (right boundary)
+ * - Norway & Sweden to the north (top boundary)
+ * - Chile to the south (bottom boundary)
+ * are each half cut off at the edge of the viewport.
+ */
+function getPerimeterCutoffCamera(width?: number, height?: number): { x: number; y: number; zoom: number } {
+  const w = width && width > 0 ? width : (typeof window !== 'undefined' ? window.innerWidth : 1536);
+  const h = height && height > 0 ? height : (typeof window !== 'undefined' ? window.innerHeight - 80 : 820);
+
+  // Horizontal perimeter: Canada at x = -980, Australia at x = 880 (span ~ 1860)
+  // Vertical perimeter: Norway/Sweden at y = -530, Chile at y = 570 (span ~ 1100)
+  const zX = w / 1860;
+  const zY = h / 1100;
+  const zoom = Math.max(0.55, Math.min(1.25, Math.min(zX, zY) * 1.05));
+  const camX = -45 * (zoom / 0.76);
+  const camY = 16 * (zoom / 0.76);
+
+  return {
+    x: Math.round(camX),
+    y: Math.round(camY),
+    zoom: +zoom.toFixed(3),
+  };
+}
+
 export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
   countries: defaultCountries,
   indicators,
@@ -85,15 +112,20 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
   };
 
   // Camera & Interaction State
-  const [camera, setCamera] = useState({ x: 0, y: 0, zoom: 0.95 });
+  const initialCam = getPerimeterCutoffCamera();
+  const [camera, setCamera] = useState(initialCam);
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [isHoveringCountry, setIsHoveringCountry] = useState(false);
+  const dragStartPosRef = useRef({ x: 0, y: 0 });
+  const hasDraggedRef = useRef(false);
+  const userHasMovedCameraRef = useRef(false);
+  const lastTimeRef = useRef(0);
   // Motion state: Live motion animation kept active as default
   const reducedMotion = false;
 
   // Target camera for smooth interpolation
-  const targetCameraRef = useRef({ x: 0, y: 0, zoom: 0.95 });
-  const currentCameraRef = useRef({ x: 0, y: 0, zoom: 0.95 });
+  const targetCameraRef = useRef(initialCam);
+  const currentCameraRef = useRef(initialCam);
 
   // When a country is selected, smoothly pan towards it
   useEffect(() => {
@@ -121,6 +153,7 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
 
     const render = (now: number) => {
       const time = (now - startTime) / 1000;
+      lastTimeRef.current = time;
 
       // 1. Smooth camera lerp
       currentCameraRef.current.x += (targetCameraRef.current.x - currentCameraRef.current.x) * 0.08;
@@ -151,6 +184,7 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
           cur.encoding.latticeFrequency = tgt.encoding.latticeFrequency;
           cur.encoding.layerCount = tgt.encoding.layerCount;
           cur.encoding.filamentCount = tgt.encoding.filamentCount;
+          cur.encoding.bedrockDensity += (tgt.encoding.bedrockDensity - cur.encoding.bedrockDensity) * lerpSpeed;
           cur.encoding.baseHue += (tgt.encoding.baseHue - cur.encoding.baseHue) * lerpSpeed;
           cur.encoding.saturation += (tgt.encoding.saturation - cur.encoding.saturation) * lerpSpeed;
           cur.encoding.lightness += (tgt.encoding.lightness - cur.encoding.lightness) * lerpSpeed;
@@ -160,18 +194,49 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
           cur.normalized = {
             ...tgt.normalized,
             rdExpenditureNorm: cur.normalized.rdExpenditureNorm + (tgt.normalized.rdExpenditureNorm - cur.normalized.rdExpenditureNorm) * lerpSpeed,
+            medianIncomeNorm: cur.normalized.medianIncomeNorm + (tgt.normalized.medianIncomeNorm - cur.normalized.medianIncomeNorm) * lerpSpeed,
+            digitalIntensityNorm: cur.normalized.digitalIntensityNorm + (tgt.normalized.digitalIntensityNorm - cur.normalized.digitalIntensityNorm) * lerpSpeed,
+            internetAccessNorm: cur.normalized.internetAccessNorm + (tgt.normalized.internetAccessNorm - cur.normalized.internetAccessNorm) * lerpSpeed,
           };
         }
       }
 
       const displayProfiles = lerpedProfilesRef.current;
 
+      // Handle High-DPI crisp buffer sizing synchronized with CSS display size
+      const rect = canvas.getBoundingClientRect();
+      const cssW = rect.width;
+      const cssH = rect.height;
+
+      if (cssW > 0 && cssH > 0) {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const targetPixelW = Math.round(cssW * dpr);
+        const targetPixelH = Math.round(cssH * dpr);
+
+        if (canvas.width !== targetPixelW || canvas.height !== targetPixelH) {
+          canvas.width = targetPixelW;
+          canvas.height = targetPixelH;
+        }
+
+        // Apply DPR transform so all rendering operates strictly in CSS pixels
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        // Calibrate initial default camera framing to actual canvas dimensions
+        if (!userHasMovedCameraRef.current && !selectedCountryId) {
+          const desired = getPerimeterCutoffCamera(cssW, cssH);
+          if (Math.abs(targetCameraRef.current.zoom - desired.zoom) > 0.02) {
+            targetCameraRef.current = desired;
+            currentCameraRef.current = desired;
+          }
+        }
+      }
+
       const state: FieldRenderState = {
         time,
         selectedCountryId,
         camera: currentCameraRef.current,
-        width: canvas.width,
-        height: canvas.height,
+        width: cssW,
+        height: cssH,
         reducedMotion,
       };
 
@@ -180,7 +245,7 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
 
       // Paint country landscapes
       ctx.save();
-      ctx.translate(canvas.width / 2 + state.camera.x, canvas.height / 2 + state.camera.y);
+      ctx.translate(cssW / 2 + state.camera.x, cssH / 2 + state.camera.y);
       ctx.scale(state.camera.zoom, state.camera.zoom);
 
       // Sort by Y position for proper isometric depth layering
@@ -215,23 +280,13 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
     };
   }, [activeCountries, selectedCountryId, reducedMotion]);
 
-  // Resize Observer for HiDPI crisp canvas
+  // Resize Observer for tracking viewport dimensions
   useEffect(() => {
     const container = containerRef.current;
-    const canvas = canvasRef.current;
-    if (!container || !canvas) return;
+    if (!container) return;
 
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.scale(dpr, dpr);
-        }
-      }
+    const resizeObserver = new ResizeObserver(() => {
+      // Re-trigger layout measurement if needed
     });
 
     resizeObserver.observe(container);
@@ -241,16 +296,65 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
   // Pointer & Pan Handlers
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     setIsDragging(true);
-    setDragStart({ x: e.clientX, y: e.clientY });
+    hasDraggedRef.current = false;
+    dragStartPosRef.current = { x: e.clientX, y: e.clientY };
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDragging) return;
-    const dx = e.clientX - dragStart.x;
-    const dy = e.clientY - dragStart.y;
-    targetCameraRef.current.x += dx;
-    targetCameraRef.current.y += dy;
-    setDragStart({ x: e.clientX, y: e.clientY });
+    if (isDragging) {
+      const dx = e.clientX - dragStartPosRef.current.x;
+      const dy = e.clientY - dragStartPosRef.current.y;
+      if (Math.hypot(dx, dy) > 4) {
+        hasDraggedRef.current = true;
+        userHasMovedCameraRef.current = true;
+      }
+      targetCameraRef.current.x += dx;
+      targetCameraRef.current.y += dy;
+      dragStartPosRef.current = { x: e.clientX, y: e.clientY };
+      return;
+    }
+
+    // Hover detection when not dragging
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const state: FieldRenderState = {
+      time: lastTimeRef.current,
+      selectedCountryId,
+      camera: currentCameraRef.current,
+      width: rect.width,
+      height: rect.height,
+      reducedMotion,
+    };
+
+    const displayProfiles = lerpedProfilesRef.current || activeCountries;
+    let hit = false;
+
+    // Check selected first
+    if (selectedCountryId) {
+      const sel = displayProfiles.find((c) => c.country.id === selectedCountryId);
+      if (sel && hitTestCountry(mouseX, mouseY, sel, state)) {
+        hit = true;
+      }
+    }
+
+    if (!hit) {
+      // Sort foreground to background
+      const sortedDesc = [...displayProfiles].sort(
+        (a, b) => b.country.fieldPosition.y - a.country.fieldPosition.y
+      );
+      for (const p of sortedDesc) {
+        if (p.country.id !== selectedCountryId && hitTestCountry(mouseX, mouseY, p, state)) {
+          hit = true;
+          break;
+        }
+      }
+    }
+
+    setIsHoveringCountry(hit);
   };
 
   const handleMouseUp = () => {
@@ -259,13 +363,19 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
 
   const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
     e.preventDefault();
+    userHasMovedCameraRef.current = true;
     const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-    const newZoom = Math.max(0.45, Math.min(2.4, targetCameraRef.current.zoom * zoomFactor));
+    const newZoom = Math.max(0.30, Math.min(2.5, targetCameraRef.current.zoom * zoomFactor));
     targetCameraRef.current.zoom = newZoom;
   };
 
   // Click Selection Handler
   const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    // If the mouse was dragged to pan the camera, do not trigger selection
+    if (hasDraggedRef.current) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
@@ -273,7 +383,7 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
     const clickY = e.clientY - rect.top;
 
     const state: FieldRenderState = {
-      time: 0,
+      time: lastTimeRef.current,
       selectedCountryId,
       camera: currentCameraRef.current,
       width: rect.width,
@@ -281,11 +391,29 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
       reducedMotion,
     };
 
+    const displayProfiles = lerpedProfilesRef.current || activeCountries;
+
     let clickedProfile: CountryEconomicProfile | null = null;
-    for (let i = activeCountries.length - 1; i >= 0; i--) {
-      if (hitTestCountry(clickX, clickY, activeCountries[i], state)) {
-        clickedProfile = activeCountries[i];
-        break;
+
+    // Priority 1: Check selected country on top
+    if (selectedCountryId) {
+      const sel = displayProfiles.find((c) => c.country.id === selectedCountryId);
+      if (sel && hitTestCountry(clickX, clickY, sel, state)) {
+        clickedProfile = sel;
+      }
+    }
+
+    // Priority 2: Check foreground to background (isometric depth order)
+    if (!clickedProfile) {
+      const sortedDesc = [...displayProfiles].sort(
+        (a, b) => b.country.fieldPosition.y - a.country.fieldPosition.y
+      );
+
+      for (const profile of sortedDesc) {
+        if (profile.country.id !== selectedCountryId && hitTestCountry(clickX, clickY, profile, state)) {
+          clickedProfile = profile;
+          break;
+        }
       }
     }
 
@@ -299,11 +427,15 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
   // Reset Camera View
   const handleResetView = () => {
     onSelectCountry(null);
-    targetCameraRef.current = { x: 0, y: 0, zoom: 0.95 };
+    userHasMovedCameraRef.current = false;
+    const canvas = canvasRef.current;
+    const rect = canvas ? canvas.getBoundingClientRect() : null;
+    targetCameraRef.current = getPerimeterCutoffCamera(rect?.width, rect?.height);
   };
 
   const handleZoom = (delta: number) => {
-    const newZoom = Math.max(0.45, Math.min(2.4, targetCameraRef.current.zoom + delta));
+    userHasMovedCameraRef.current = true;
+    const newZoom = Math.max(0.30, Math.min(2.5, targetCameraRef.current.zoom + delta));
     targetCameraRef.current.zoom = newZoom;
   };
 
@@ -319,11 +451,20 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
       <canvas
         id="atlas-interactive-canvas"
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing block"
+        className={`absolute inset-0 w-full h-full block ${
+          isDragging
+            ? 'cursor-grabbing'
+            : isHoveringCountry
+            ? 'cursor-pointer'
+            : 'cursor-grab'
+        }`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onMouseLeave={() => {
+          handleMouseUp();
+          setIsHoveringCountry(false);
+        }}
         onWheel={handleWheel}
         onClick={handleClick}
         tabIndex={0}
@@ -385,7 +526,7 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
           >
             <div className="flex items-center gap-1.5">
               <span className="text-[10px] font-mono uppercase tracking-wider text-white/40 hidden md:inline">Year</span>
-              <span className="text-xs font-mono font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20 text-center select-none min-w-[3.25rem]">
+              <span className="text-xs font-mono font-bold text-neutral-200 bg-white/10 px-2 py-0.5 rounded border border-white/20 text-center select-none min-w-[3.25rem]">
                 {currentYear}
               </span>
             </div>
@@ -402,7 +543,7 @@ export const AtlasCanvas: React.FC<AtlasCanvasProps> = ({
               step={1}
               value={currentYear}
               onChange={(e) => handleYearChange(Number(e.target.value))}
-              className="w-28 xs:w-36 sm:w-44 md:w-56 h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-amber-400 hover:accent-amber-300 focus:outline-none transition-all"
+              className="w-28 xs:w-36 sm:w-44 md:w-56 h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-neutral-300 hover:accent-white focus:outline-none transition-all"
               aria-label="Time series year slider"
             />
 

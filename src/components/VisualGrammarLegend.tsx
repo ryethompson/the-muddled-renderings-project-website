@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Layers, Sparkles, Cpu, Radio } from 'lucide-react';
+import { BedrockIcon, SpireIcon, CircuitsIcon, AuraIcon } from './VisualGrammarIcons';
 
 export const VisualGrammarLegend: React.FC = () => {
   return (
@@ -33,7 +33,7 @@ export const VisualGrammarLegend: React.FC = () => {
           {/* Dimension 1: Income -> Bedrock */}
           <div className="flex items-start gap-2.5 p-2 rounded-lg bg-white/[0.02]">
             <div className="p-1.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 shrink-0">
-              <Layers size={14} />
+              <BedrockIcon className="w-4 h-4" />
             </div>
             <div>
               <span className="font-medium text-white/90 block">Median Income</span>
@@ -47,7 +47,7 @@ export const VisualGrammarLegend: React.FC = () => {
           {/* Dimension 2: R&D -> Spire */}
           <div className="flex items-start gap-2.5 p-2 rounded-lg bg-white/[0.02]">
             <div className="p-1.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shrink-0">
-              <Sparkles size={14} />
+              <SpireIcon className="w-4 h-4" />
             </div>
             <div>
               <span className="font-medium text-white/90 block">R&D Expenditure</span>
@@ -61,7 +61,7 @@ export const VisualGrammarLegend: React.FC = () => {
           {/* Dimension 3: Business Digital Intensity -> Veins */}
           <div className="flex items-start gap-2.5 p-2 rounded-lg bg-white/[0.02]">
             <div className="p-1.5 rounded bg-violet-500/10 text-violet-400 border border-violet-500/20 shrink-0">
-              <Cpu size={14} />
+              <CircuitsIcon className="w-4 h-4" />
             </div>
             <div>
               <span className="font-medium text-white/90 block">Business Digital Intensity</span>
@@ -75,7 +75,7 @@ export const VisualGrammarLegend: React.FC = () => {
           {/* Dimension 4: Internet Access -> Atmosphere */}
           <div className="flex items-start gap-2.5 p-2 rounded-lg bg-white/[0.02]">
             <div className="p-1.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
-              <Radio size={14} />
+              <AuraIcon className="w-4 h-4" />
             </div>
             <div>
               <span className="font-medium text-white/90 block">Household Internet Access</span>

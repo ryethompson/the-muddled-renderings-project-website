@@ -8,7 +8,8 @@
 
 import React from 'react';
 import { CountryEconomicProfile, Indicator } from '../types';
-import { X, ExternalLink, Layers, Cpu, Radio, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
+import { X, ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
+import { BedrockIcon, SpireIcon, CircuitsIcon, AuraIcon } from './VisualGrammarIcons';
 
 interface CountryAnnotationCardProps {
   profile: CountryEconomicProfile | null;
@@ -54,11 +55,11 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
     if (status === 'Interpolated') {
       return (
         <span 
-          title={notes || "Interpolated under the <= 2-year constraint"}
+          title={notes || "Interpolated observation"}
           className="inline-flex items-center gap-1 text-[9px] font-mono text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded border border-amber-400/20"
         >
           <AlertCircle size={10} />
-          Interpolated (≤2yr)
+          Interpolated
         </span>
       );
     }
@@ -77,21 +78,10 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
       {/* Header */}
       <div className="flex items-start justify-between border-b border-white/10 pb-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-white/10 text-white/90 border border-white/10 tracking-wider">
-              {country.isoCode}
-            </span>
-            <span className="text-xs text-amber-400 font-mono font-semibold">
-              Year {selectedYear}
-            </span>
-            <span className="text-xs text-white/40 font-mono">
-              • OECD {country.oecdMemberSince}
-            </span>
-          </div>
-          <h2 className="font-serif-display text-2xl text-white font-normal mt-1 tracking-tight">
+          <h2 className="font-serif-display text-2xl text-white font-normal tracking-tight">
             {country.name}
           </h2>
-          <p className="text-xs text-white/50">{country.officialName} • {country.region}</p>
+          <p className="text-xs text-white/50 mt-1">{country.officialName} • {country.region}</p>
         </div>
 
         <button
@@ -110,7 +100,7 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
         <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between text-xs mb-1">
             <span className="flex items-center gap-1.5 text-white/70 font-medium">
-              <Layers size={13} className="text-amber-400/80" />
+              <BedrockIcon className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               Median Disposable Income
             </span>
             <div className="flex items-center gap-1.5">
@@ -120,16 +110,16 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
               </span>
             </div>
           </div>
-          <p className="text-[11px] text-white/40 leading-relaxed">
-            <span className="text-amber-300/60 font-mono">Bedrock:</span> Footprint {Math.round(encoding.baseRadius)}px • {encoding.layerCount} strata layers.
-          </p>
+          <div className="mt-0.5">
+            <span className="text-amber-300/80 font-mono font-medium text-[11px]">Bedrock</span>
+          </div>
         </div>
 
         {/* 2. R&D Expenditure -> Spire & Plumes */}
         <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between text-xs mb-1">
             <span className="flex items-center gap-1.5 text-white/70 font-medium">
-              <Sparkles size={13} className="text-cyan-400/80" />
+              <SpireIcon className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
               R&D Expenditure (% GDP)
             </span>
             <div className="flex items-center gap-1.5">
@@ -139,16 +129,16 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
               </span>
             </div>
           </div>
-          <p className="text-[11px] text-white/40 leading-relaxed">
-            <span className="text-cyan-300/60 font-mono">Spire:</span> {Math.round(encoding.spireHeight)}px crystalline spire • {encoding.plumeParticleCount} micro-nodes.
-          </p>
+          <div className="mt-0.5">
+            <span className="text-cyan-300/80 font-mono font-medium text-[11px]">Spire</span>
+          </div>
         </div>
 
         {/* 3. Business Digital Intensity -> Vein Lattice */}
         <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between text-xs mb-1">
             <span className="flex items-center gap-1.5 text-white/70 font-medium">
-              <Cpu size={13} className="text-violet-400/80" />
+              <CircuitsIcon className="w-3.5 h-3.5 text-violet-400 shrink-0" />
               Digital Intensity of Businesses
             </span>
             <div className="flex items-center gap-1.5">
@@ -158,16 +148,16 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
               </span>
             </div>
           </div>
-          <p className="text-[11px] text-white/40 leading-relaxed">
-            <span className="text-violet-300/60 font-mono">Circuits:</span> {encoding.latticeFrequency}-node lattice pulsing at {encoding.veinPulseSpeed.toFixed(1)}x.
-          </p>
+          <div className="mt-0.5">
+            <span className="text-violet-300/80 font-mono font-medium text-[11px]">Circuits</span>
+          </div>
         </div>
 
         {/* 4. Household Internet Access -> Coherence Aura */}
         <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between text-xs mb-1">
             <span className="flex items-center gap-1.5 text-white/70 font-medium">
-              <Radio size={13} className="text-emerald-400/80" />
+              <AuraIcon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               Household Internet Access
             </span>
             <div className="flex items-center gap-1.5">
@@ -177,16 +167,16 @@ export const CountryAnnotationCard: React.FC<CountryAnnotationCardProps> = ({
               </span>
             </div>
           </div>
-          <p className="text-[11px] text-white/40 leading-relaxed">
-            <span className="text-emerald-300/60 font-mono">Aura:</span> {Math.round(encoding.coherenceAuraRadius)}px radius • {encoding.filamentCount} tendrils.
-          </p>
+          <div className="mt-0.5">
+            <span className="text-emerald-300/80 font-mono font-medium text-[11px]">Aura</span>
+          </div>
         </div>
       </div>
 
       {/* Metadata & Authoritative Citation Footer */}
       <div className="border-t border-white/10 pt-3 flex items-center justify-between text-[11px] text-white/40">
         <div>
-          <span>Ref Period: {selectedYear} • OECD.Stat & Eurostat</span>
+          <span>OECD.Stat & Eurostat</span>
         </div>
         <a
           href="https://data.oecd.org"

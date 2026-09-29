@@ -138,7 +138,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 1,
     coordinates: { lat: 60.472, lng: 8.4689 },
-    fieldPosition: { x: -320, y: -260 },
+    fieldPosition: { x: -250, y: -530 },
   },
   {
     id: 'oecd-swe',
@@ -150,7 +150,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 2,
     coordinates: { lat: 60.1282, lng: 18.6435 },
-    fieldPosition: { x: -180, y: -290 },
+    fieldPosition: { x: -90, y: -530 },
   },
   {
     id: 'oecd-fin',
@@ -162,7 +162,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 3,
     coordinates: { lat: 61.9241, lng: 25.7482 },
-    fieldPosition: { x: -40, y: -310 },
+    fieldPosition: { x: 80, y: -550 },
   },
   {
     id: 'oecd-dnk',
@@ -174,7 +174,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 4,
     coordinates: { lat: 56.2639, lng: 9.5018 },
-    fieldPosition: { x: -220, y: -160 },
+    fieldPosition: { x: -170, y: -390 },
   },
   {
     id: 'oecd-isl',
@@ -186,7 +186,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 5,
     coordinates: { lat: 64.9631, lng: -19.0208 },
-    fieldPosition: { x: -480, y: -270 },
+    fieldPosition: { x: -620, y: -620 },
   },
   {
     id: 'oecd-est',
@@ -198,7 +198,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 6,
     coordinates: { lat: 58.5953, lng: 25.0136 },
-    fieldPosition: { x: 100, y: -280 },
+    fieldPosition: { x: 230, y: -370 },
   },
   {
     id: 'oecd-lva',
@@ -210,7 +210,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 7,
     coordinates: { lat: 56.8796, lng: 24.6032 },
-    fieldPosition: { x: 180, y: -210 },
+    fieldPosition: { x: 280, y: -260 },
   },
   {
     id: 'oecd-ltu',
@@ -222,7 +222,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 8,
     coordinates: { lat: 55.1694, lng: 23.8813 },
-    fieldPosition: { x: 220, y: -130 },
+    fieldPosition: { x: 310, y: -150 },
   },
 
   // Western & Central Europe Core
@@ -236,7 +236,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 9,
     coordinates: { lat: 51.1657, lng: 10.4515 },
-    fieldPosition: { x: -80, y: -120 },
+    fieldPosition: { x: -20, y: -190 },
   },
   {
     id: 'oecd-nld',
@@ -248,7 +248,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 10,
     coordinates: { lat: 52.1326, lng: 5.2913 },
-    fieldPosition: { x: -200, y: -60 },
+    fieldPosition: { x: -190, y: -170 },
   },
   {
     id: 'oecd-bel',
@@ -260,7 +260,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 11,
     coordinates: { lat: 50.5039, lng: 4.4699 },
-    fieldPosition: { x: -260, y: 10 },
+    fieldPosition: { x: -270, y: -60 },
   },
   {
     id: 'oecd-lux',
@@ -272,7 +272,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 12,
     coordinates: { lat: 49.8153, lng: 6.1296 },
-    fieldPosition: { x: -160, y: 20 },
+    fieldPosition: { x: -110, y: -20 },
   },
   {
     id: 'oecd-che',
@@ -284,7 +284,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 13,
     coordinates: { lat: 46.8182, lng: 8.2275 },
-    fieldPosition: { x: -60, y: 30 },
+    fieldPosition: { x: -40, y: 90 },
   },
   {
     id: 'oecd-aut',
@@ -296,7 +296,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 14,
     coordinates: { lat: 47.5162, lng: 14.5501 },
-    fieldPosition: { x: 50, y: 0 },
+    fieldPosition: { x: 90, y: 40 },
   },
   {
     id: 'oecd-fra',
@@ -308,7 +308,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 15,
     coordinates: { lat: 46.2276, lng: 2.2137 },
-    fieldPosition: { x: -240, y: 110 },
+    fieldPosition: { x: -340, y: 90 },
   },
   {
     id: 'oecd-gbr',
@@ -320,7 +320,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 16,
     coordinates: { lat: 55.3781, lng: -3.436 },
-    fieldPosition: { x: -370, y: -90 },
+    fieldPosition: { x: -340, y: -240 },
   },
   {
     id: 'oecd-irl',
@@ -332,7 +332,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 17,
     coordinates: { lat: 53.1424, lng: -7.6921 },
-    fieldPosition: { x: -470, y: -70 },
+    fieldPosition: { x: -500, y: -250 },
   },
 
   // Central-Eastern Europe
@@ -346,7 +346,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 18,
     coordinates: { lat: 51.9194, lng: 19.1451 },
-    fieldPosition: { x: 140, y: -70 },
+    fieldPosition: { x: 140, y: -170 },
   },
   {
     id: 'oecd-cze',
@@ -358,7 +358,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 19,
     coordinates: { lat: 49.8175, lng: 15.473 },
-    fieldPosition: { x: 60, y: -80 },
+    fieldPosition: { x: 30, y: -70 },
   },
   {
     id: 'oecd-svk',
@@ -370,7 +370,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 20,
     coordinates: { lat: 48.669, lng: 19.699 },
-    fieldPosition: { x: 170, y: 20 },
+    fieldPosition: { x: 200, y: -50 },
   },
   {
     id: 'oecd-hun',
@@ -382,7 +382,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 21,
     coordinates: { lat: 47.1625, lng: 19.5033 },
-    fieldPosition: { x: 130, y: 100 },
+    fieldPosition: { x: 170, y: 130 },
   },
   {
     id: 'oecd-svn',
@@ -394,7 +394,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 22,
     coordinates: { lat: 46.1512, lng: 14.9955 },
-    fieldPosition: { x: 30, y: 90 },
+    fieldPosition: { x: 30, y: 170 },
   },
 
   // Mediterranean & Southern Europe
@@ -408,7 +408,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 23,
     coordinates: { lat: 41.8719, lng: 12.5674 },
-    fieldPosition: { x: -80, y: 180 },
+    fieldPosition: { x: -90, y: 280 },
   },
   {
     id: 'oecd-esp',
@@ -420,7 +420,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 24,
     coordinates: { lat: 40.4637, lng: -3.7492 },
-    fieldPosition: { x: -280, y: 230 },
+    fieldPosition: { x: -340, y: 230 },
   },
   {
     id: 'oecd-prt',
@@ -432,7 +432,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 25,
     coordinates: { lat: 39.3999, lng: -8.2245 },
-    fieldPosition: { x: -390, y: 210 },
+    fieldPosition: { x: -490, y: 230 },
   },
   {
     id: 'oecd-grc',
@@ -444,7 +444,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 26,
     coordinates: { lat: 39.0742, lng: 21.8243 },
-    fieldPosition: { x: 120, y: 200 },
+    fieldPosition: { x: 180, y: 300 },
   },
   {
     id: 'oecd-tur',
@@ -456,7 +456,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Europe',
     displayOrder: 27,
     coordinates: { lat: 38.9637, lng: 35.2433 },
-    fieldPosition: { x: 250, y: 240 },
+    fieldPosition: { x: 370, y: 290 },
   },
   {
     id: 'oecd-isr',
@@ -468,10 +468,10 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Middle East',
     displayOrder: 28,
     coordinates: { lat: 31.0461, lng: 34.8516 },
-    fieldPosition: { x: 330, y: 150 },
+    fieldPosition: { x: 480, y: 400 },
   },
 
-  // North America
+  // North America (Western Hemisphere)
   {
     id: 'oecd-usa',
     isoCode: 'USA',
@@ -482,7 +482,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Americas',
     displayOrder: 29,
     coordinates: { lat: 37.0902, lng: -95.7129 },
-    fieldPosition: { x: -620, y: -20 },
+    fieldPosition: { x: -960, y: -140 },
   },
   {
     id: 'oecd-can',
@@ -494,7 +494,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Americas',
     displayOrder: 30,
     coordinates: { lat: 56.1304, lng: -106.3468 },
-    fieldPosition: { x: -660, y: -160 },
+    fieldPosition: { x: -980, y: -380 },
   },
   {
     id: 'oecd-mex',
@@ -506,7 +506,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Americas',
     displayOrder: 31,
     coordinates: { lat: 23.6345, lng: -102.5528 },
-    fieldPosition: { x: -590, y: 120 },
+    fieldPosition: { x: -930, y: 100 },
   },
 
   // Latin America
@@ -520,7 +520,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Americas',
     displayOrder: 32,
     coordinates: { lat: -35.6751, lng: -71.543 },
-    fieldPosition: { x: -550, y: 260 },
+    fieldPosition: { x: -740, y: 570 },
   },
   {
     id: 'oecd-col',
@@ -532,7 +532,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Americas',
     displayOrder: 33,
     coordinates: { lat: 4.5709, lng: -74.2973 },
-    fieldPosition: { x: -480, y: 350 },
+    fieldPosition: { x: -750, y: 370 },
   },
   {
     id: 'oecd-cri',
@@ -544,10 +544,10 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Americas',
     displayOrder: 34,
     coordinates: { lat: 9.7489, lng: -83.7534 },
-    fieldPosition: { x: -620, y: 280 },
+    fieldPosition: { x: -900, y: 290 },
   },
 
-  // Asia - Pacific
+  // Asia - Pacific (Eastern Hemisphere)
   {
     id: 'oecd-kor',
     isoCode: 'KOR',
@@ -558,7 +558,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Asia-Pacific',
     displayOrder: 35,
     coordinates: { lat: 35.9078, lng: 127.7669 },
-    fieldPosition: { x: 440, y: -190 },
+    fieldPosition: { x: 820, y: -60 },
   },
   {
     id: 'oecd-jpn',
@@ -570,7 +570,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Asia-Pacific',
     displayOrder: 36,
     coordinates: { lat: 36.2048, lng: 138.2529 },
-    fieldPosition: { x: 550, y: -110 },
+    fieldPosition: { x: 1010, y: -50 },
   },
   {
     id: 'oecd-aus',
@@ -582,7 +582,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Asia-Pacific',
     displayOrder: 37,
     coordinates: { lat: -25.2744, lng: 133.7751 },
-    fieldPosition: { x: 470, y: 70 },
+    fieldPosition: { x: 880, y: 360 },
   },
   {
     id: 'oecd-nzl',
@@ -594,7 +594,7 @@ export const OECD_COUNTRIES: Country[] = [
     region: 'Asia-Pacific',
     displayOrder: 38,
     coordinates: { lat: -40.9006, lng: 174.886 },
-    fieldPosition: { x: 570, y: 190 },
+    fieldPosition: { x: 1070, y: 530 },
   },
 ];
 
