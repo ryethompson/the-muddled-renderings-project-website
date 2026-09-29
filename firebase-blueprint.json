@@ -2,8 +2,8 @@
   "schemaVersion": "1.0",
   "entities": {
     "countries": {
-      "title": "OECD Country Profiles",
-      "description": "Geographical and OECD membership metadata for 38 member states",
+      "title": "renderings",
+      "description": [] ,
       "type": "object",
       "properties": {
         "id": { "type": "string" },
@@ -32,7 +32,7 @@
     },
     "observations": {
       "title": "Statistical Observations",
-      "description": "Harmonized statistical measurements for OECD indicators",
+      "description": [] ,
       "type": "object",
       "properties": {
         "id": { "type": "string" },
