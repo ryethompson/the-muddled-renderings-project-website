@@ -66,30 +66,24 @@ export const BottomBanner: React.FC<BottomBannerProps> = ({
             Release note
           </div>
 
-          <div className="flex flex-col items-start sm:items-end space-y-1.5 text-left sm:text-right">
+          <div className="flex flex-col items-start sm:items-end space-y-1.5 text-left sm:text-right text-[11px]">
             {/* 1. Rendering release */}
             <div className="text-white/70 text-[11px] font-mono">
               <span className="font-medium">Rendering release </span>
               <span className="font-normal text-white/55">({formatToDDMMYYYY(renderingDate)})</span>
             </div>
 
-            {/* 2. Website version */}
-            <div className="text-white/70 text-[11px] font-mono">
-              <span className="font-medium">Website version </span>
-              <span className="font-normal text-white/55">{websiteVersion}</span>
-            </div>
-
-            {/* 3. Link to the github repository */}
+            {/* 2. Link to github repository */}
             <div>
               <a
                 href={pipelineGithubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-medium transition-colors group"
+                className="inline-flex items-center gap-1.5 text-[11px] font-mono text-amber-400 hover:text-amber-300 font-medium transition-colors group"
                 title="View public repository and pipeline source code on GitHub"
               >
                 <Github className="w-3.5 h-3.5 text-white/70 group-hover:text-amber-300 transition-colors" />
-                <span>Link to the GitHub repository</span>
+                <span>Github</span>
                 <ExternalLink className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100" />
               </a>
             </div>
