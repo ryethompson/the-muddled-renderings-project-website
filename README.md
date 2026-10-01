@@ -13,7 +13,7 @@ the-muddled-renderings-project-website/
 ├── README.md                                 # Root repository overview & project documentation
 ├── renderings/                               # Master directory for all renderings and their pipelines
 │   ├── README.md                             # Architectural standard & template for future renderings
-│   └── mar-a-techno-archipelago/             # Dedicated folder for Rendering #1
+│   └── techno-archipelago/                   # Dedicated folder for Rendering #1
 │       ├── README.md                         # Detailed rendering specification & 2-year interpolation methodology
 │       ├── pipeline/                         # Data extraction & ETL (OECD SDMX REST API, 2014–2024)
 │       │   ├── oecd_database_etl.py
@@ -39,10 +39,10 @@ the-muddled-renderings-project-website/
 
 ## 2. Published Renderings
 
-### Rendering #1: Mar-a-Techno Archipelago
+### Rendering #1: Techno Archipelago
 
 * **Status:** Published & Active
-* **Dedicated Rendering Folder:** [`renderings/mar-a-techno-archipelago/`](./renderings/mar-a-techno-archipelago/)
+* **Dedicated Rendering Folder:** [`renderings/techno-archipelago/`](./renderings/techno-archipelago/)
 
 #### Multi-Year Time Series & Methodological Choices:
 1. **Longitudinal Reach (2014–2024):** Incorporates an 11-year annual continuous time series. 2014 was selected as the earliest viable epoch due to the harmonization of the Eurostat Digital Intensity Index (DII) and modern OECD broadband surveys across all 38 member states.
@@ -55,11 +55,11 @@ the-muddled-renderings-project-website/
 
 | Pipeline Layer | File Path | Function & Technology |
 | :--- | :--- | :--- |
-| **Data Ingestion & ETL** | [`renderings/mar-a-techno-archipelago/pipeline/oecd_database_etl.py`](./renderings/mar-a-techno-archipelago/pipeline/oecd_database_etl.py) | Harvests multi-year OECD SDMX REST API endpoints, applies retry backoff, executes 2-year bounded interpolation, and validates statistical ranges (Python). |
-| **Statistical Analytics** | [`renderings/mar-a-techno-archipelago/analytics/analytics_engine.ts`](./renderings/mar-a-techno-archipelago/analytics/analytics_engine.ts) | Computes outlier-clipped robust normalizations (5th/95th percentiles), temporal growth velocity, and cross-indicator harmonic resonance (TypeScript). |
-| **Canvas Procedural Engine** | [`renderings/mar-a-techno-archipelago/visualization/landscape_canvas_renderer.ts`](./renderings/mar-a-techno-archipelago/visualization/landscape_canvas_renderer.ts) | 60 FPS HTML5 Canvas engine rendering wave equations, geological bedrock, crystalline spires, and particle flows (TypeScript / Canvas 2D). |
-| **CI/CD Automation** | [`renderings/mar-a-techno-archipelago/workflow/oecd_atlas_pipeline.yml`](./renderings/mar-a-techno-archipelago/workflow/oecd_atlas_pipeline.yml) | Scheduled GitHub Actions workflow for autonomous monthly data extraction and build verification. |
-| **Sample Dataset** | [`renderings/mar-a-techno-archipelago/data/canonical_sample.json`](./renderings/mar-a-techno-archipelago/data/canonical_sample.json) | Reference multi-year observation payload for 38 OECD nations with raw values and visual dimension mappings. |
+| **Data Ingestion & ETL** | [`renderings/techno-archipelago/pipeline/oecd_database_etl.py`](./renderings/techno-archipelago/pipeline/oecd_database_etl.py) | Harvests multi-year OECD SDMX REST API endpoints, applies retry backoff, executes 2-year bounded interpolation, and validates statistical ranges (Python). |
+| **Statistical Analytics** | [`renderings/techno-archipelago/analytics/analytics_engine.ts`](./renderings/techno-archipelago/analytics/analytics_engine.ts) | Computes outlier-clipped robust normalizations (5th/95th percentiles), temporal growth velocity, and cross-indicator harmonic resonance (TypeScript). |
+| **Canvas Procedural Engine** | [`renderings/techno-archipelago/visualization/landscape_canvas_renderer.ts`](./renderings/techno-archipelago/visualization/landscape_canvas_renderer.ts) | 60 FPS HTML5 Canvas engine rendering wave equations, geological bedrock, crystalline spires, and particle flows (TypeScript / Canvas 2D). |
+| **CI/CD Automation** | [`renderings/techno-archipelago/workflow/oecd_atlas_pipeline.yml`](./renderings/techno-archipelago/workflow/oecd_atlas_pipeline.yml) | Scheduled GitHub Actions workflow for autonomous monthly data extraction and build verification. |
+| **Sample Dataset** | [`renderings/techno-archipelago/data/canonical_sample.json`](./renderings/techno-archipelago/data/canonical_sample.json) | Reference multi-year observation payload for 38 OECD nations with raw values and visual dimension mappings. |
 
 #### Visual Grammar Encodings:
 1. **Median Disposable Income (OECD WISE):** Governs **Geological Bedrock Mass & Footprint Radius** [36–82px] and strata count [3–8 layers]. Higher household income creates expansive, stratified rock foundations.

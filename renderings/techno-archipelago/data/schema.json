@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TechnoArchipelagoObservationSchema",
+  "type": "object",
+  "required": ["renderingId", "edition", "countries", "qualityReport"],
+  "properties": {
+    "renderingId": { "type": "string", "const": "techno-archipelago" },
+    "edition": { "type": "string" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["country", "metrics", "normalized", "encoding"],
+        "properties": {
+          "country": {
+            "type": "object",
+            "required": ["id", "isoCode", "name", "region"],
+            "properties": {
+              "id": { "type": "string" },
+              "isoCode": { "type": "string", "pattern": "^[A-Z]{3}$" },
+              "name": { "type": "string" },
+              "region": { "type": "string" }
+            }
+          },
+          "metrics": {
+            "type": "object",
+            "properties": {
+              "householdInternetAccess": { "type": ["number", "null"] },
+              "digitalIntensityBusinesses": { "type": ["number", "null"] },
+              "rdExpenditure": { "type": ["number", "null"] },
+              "medianDisposableIncome": { "type": ["number", "null"] }
+            }
+          },
+          "normalized": {
+            "type": "object",
+            "properties": {
+              "internetAccessNorm": { "type": "number", "minimum": 0, "maximum": 1 },
+              "digitalIntensityNorm": { "type": "number", "minimum": 0, "maximum": 1 },
+              "rdExpenditureNorm": { "type": "number", "minimum": 0, "maximum": 1 },
+              "medianIncomeNorm": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          },
+          "encoding": {
+            "type": "object",
+            "required": ["baseRadius", "elevationHeight", "spireHeight", "latticeFrequency"],
+            "properties": {
+              "baseRadius": { "type": "number" },
+              "elevationHeight": { "type": "number" },
+              "spireHeight": { "type": "number" },
+              "latticeFrequency": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "qualityReport": {
+      "type": "object",
+      "required": ["totalCountries", "validationPassed"],
+      "properties": {
+        "totalCountries": { "type": "integer", "const": 38 },
+        "validationPassed": { "type": "boolean" }
+      }
+    }
+  }
+}

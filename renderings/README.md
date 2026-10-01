@@ -2,7 +2,7 @@
 
 | # | Rendering Title | Folder Path | Research Inquiry / Dataset | Status |
 | :- | :--- | :--- | :--- | :- |
-| 1 | **Mar-a-Techno Archipelago** | [`renderings/mar-a-techno-archipelago/`](./mar-a-techno-archipelago/) | OECD median disposable income to R&D expenditure and enterprise digital integration | **Published & Active** |
+| 1 | **Techno Archipelago** | [`renderings/techno-archipelago/`](./techno-archipelago/) | OECD median disposable income to R&D expenditure and enterprise digital integration | **Published & Active** |
 | 2 | *(Future Rendering)* | `renderings/<rendering-slug>/` | Planned |
 
 ---

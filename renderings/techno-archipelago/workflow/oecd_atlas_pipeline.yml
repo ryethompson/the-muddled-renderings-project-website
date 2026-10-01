@@ -1,0 +1,74 @@
+name: Techno Archipelago Pipeline
+
+on:
+  schedule:
+    # Monthly automated ingestion at 00:00 UTC on the 1st of every month
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: 'Bypass local cache and query live OECD SDMX endpoints'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+jobs:
+  ingest-and-validate:
+    name: OECD SDMX Ingestion & Quality Assertions
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11 Runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Pipeline Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r renderings/techno-archipelago/pipeline/requirements.txt
+
+      - name: Execute Techno Archipelago Ingestion Pipeline
+        run: |
+          python renderings/techno-archipelago/pipeline/oecd_database_etl.py
+        env:
+          OECD_USER_AGENT: 'TheMuddledRenderingsProject/1.4 (Techno Archipelago Automated Ingestion)'
+
+      - name: Assert Statistical Quality Gates
+        run: |
+          python -c "
+          import json
+          with open('renderings/techno-archipelago/data/canonical_oecd_atlas.json') as f:
+              data = json.load(f)
+          assert len(data['countries']) == 38, 'Must validate exactly 38 OECD nations'
+          assert data['quality_report']['validation_passed'] is True, 'Statistical assertions failed'
+          print('Quality check passed: 38 OECD distributions validated.')
+          "
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Verify Web Build & TypeScript Compilation
+        run: |
+          npm ci
+          npm run build
+          npm run lint
+
+      - name: Commit Fresh Ingestion Outputs
+        if: github.event_name == 'schedule' || github.event.inputs.force_refresh == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(archipelago): refresh canonical OECD economic dataset [skip ci]"
+          file_pattern: "renderings/techno-archipelago/data/canonical_oecd_atlas.json src/server/data/oecdDataset.ts"

@@ -1,7 +1,7 @@
 import { Project } from '../types/projects';
 import { DEFAULT_PROJECTS } from '../data/defaultProjects';
 
-const STORAGE_KEY = 'muddled_renderings_projects_v13';
+const STORAGE_KEY = 'muddled_renderings_projects_v16';
 
 export class ProjectStorage {
   private static subscribers: Array<(projects: Project[]) => void> = [];

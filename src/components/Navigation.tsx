@@ -82,7 +82,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               >
                 <span className="text-white/40 hidden sm:inline">rendering:</span>
                 <span className="font-semibold text-white tracking-wide truncate max-w-[120px] sm:max-w-[180px]">
-                  {activeProject?.title || 'Mar-a-Techno Archipelago'}
+                  {activeProject?.title || 'Techno Archipelago'}
                 </span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 text-white/50 transition-transform duration-200 ${
