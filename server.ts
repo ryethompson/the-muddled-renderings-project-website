@@ -127,6 +127,16 @@ async function startServer() {
     });
   });
 
+  const injectAbsoluteMetadata = (html: string, req: express.Request): string => {
+    const proto = (req.headers['x-forwarded-proto'] as string) || req.protocol || 'https';
+    const host = (req.headers['x-forwarded-host'] as string) || req.headers.host;
+    if (!host) return html;
+    const origin = `${proto}://${host}`;
+    return html
+      .replace(/content="\/favicon\.png"/g, `content="${origin}/favicon.png"`)
+      .replace(/<head>/i, `<head>\n    <meta property="og:url" content="${origin}${req.originalUrl || '/'}" />`);
+  };
+
   const isProduction = process.env.NODE_ENV === 'production';
 
   if (!isProduction) {
@@ -147,6 +157,7 @@ async function startServer() {
         const indexHtmlPath = path.resolve(process.cwd(), 'index.html');
         let template = fs.readFileSync(indexHtmlPath, 'utf-8');
         template = await vite.transformIndexHtml(url, template);
+        template = injectAbsoluteMetadata(template, req);
         res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
       } catch (e: any) {
         if (vite) {
@@ -164,7 +175,14 @@ async function startServer() {
         if (req.path.startsWith('/api/') || req.path.startsWith('/health')) {
           return next();
         }
-        res.sendFile(path.join(distPath, 'index.html'));
+        const indexPath = path.join(distPath, 'index.html');
+        if (fs.existsSync(indexPath)) {
+          let html = fs.readFileSync(indexPath, 'utf-8');
+          html = injectAbsoluteMetadata(html, req);
+          res.status(200).set({ 'Content-Type': 'text/html' }).send(html);
+        } else {
+          res.status(404).send('Not Found');
+        }
       });
     } else {
       console.log('[Server] Production dist not found, mounting Vite middleware fallback');
@@ -183,6 +201,7 @@ async function startServer() {
           const indexHtmlPath = path.resolve(process.cwd(), 'index.html');
           let template = fs.readFileSync(indexHtmlPath, 'utf-8');
           template = await vite.transformIndexHtml(url, template);
+          template = injectAbsoluteMetadata(template, req);
           res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
         } catch (e: any) {
           next(e);
