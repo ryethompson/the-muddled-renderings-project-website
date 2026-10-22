@@ -1,6 +1,6 @@
 {
   "name": "The Muddled Renderings Project",
-  "description": "An anthology of experimental generative art and data visualization pages, featuring the canonical OECD Economic Atlas alongside publishable generative rendering projects.",
+  "description": "",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
