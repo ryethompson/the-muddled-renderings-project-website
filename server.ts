@@ -127,63 +127,68 @@ async function startServer() {
     });
   });
 
-  // Robust production detection and static file resolution
-  const candidateDistPaths = [
-    path.join(process.cwd(), 'dist'),
-    path.resolve('./dist'),
-    path.resolve(currentDir, 'dist'),
-    currentDir,
-    path.resolve(currentDir, '..', 'dist'),
-  ];
+  const isProduction = process.env.NODE_ENV === 'production';
 
-  let resolvedDistPath = candidateDistPaths.find((p) => {
-    try {
-      return fs.existsSync(path.join(p, 'index.html'));
-    } catch {
-      return false;
-    }
-  });
-
-  // If dist/index.html is not found anywhere, attempt an on-the-fly vite build
-  if (!resolvedDistPath) {
-    console.log('[Server] dist/index.html not found. Attempting on-demand vite build...');
-    try {
-      const { execSync } = await import('child_process');
-      execSync('npx vite build', { stdio: 'inherit' });
-      resolvedDistPath = candidateDistPaths.find((p) => {
-        try {
-          return fs.existsSync(path.join(p, 'index.html'));
-        } catch {
-          return false;
-        }
-      });
-    } catch (buildErr) {
-      console.warn('[Server] On-demand vite build fallback encountered:', buildErr);
-    }
-  }
-
-  if (resolvedDistPath && fs.existsSync(path.join(resolvedDistPath, 'index.html'))) {
-    console.log(`[Server] Serving production static files from: ${resolvedDistPath}`);
-    app.use(express.static(resolvedDistPath));
-    app.get('*', (req, res, next) => {
-      if (req.path.startsWith('/api/') || req.path.startsWith('/health')) {
-        return next();
-      }
-      const indexPath = path.join(resolvedDistPath!, 'index.html');
-      if (fs.existsSync(indexPath)) {
-        res.sendFile(indexPath);
-      } else {
-        res.status(404).send('Not Found');
-      }
-    });
-  } else {
-    console.log('[Server] Mounting dynamic Vite middleware fallback');
+  if (!isProduction) {
+    console.log('[Server] Mounting dynamic Vite middleware for development');
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
+
+    app.use('*', async (req, res, next) => {
+      if (req.path.startsWith('/api/') || req.path.startsWith('/health')) {
+        return next();
+      }
+      try {
+        const url = req.originalUrl;
+        const indexHtmlPath = path.resolve(process.cwd(), 'index.html');
+        let template = fs.readFileSync(indexHtmlPath, 'utf-8');
+        template = await vite.transformIndexHtml(url, template);
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+      } catch (e: any) {
+        if (vite) {
+          vite.ssrFixStacktrace(e);
+        }
+        next(e);
+      }
+    });
+  } else {
+    const distPath = path.resolve(process.cwd(), 'dist');
+    if (fs.existsSync(distPath) && fs.existsSync(path.join(distPath, 'index.html'))) {
+      console.log(`[Server] Serving production static files from: ${distPath}`);
+      app.use(express.static(distPath));
+      app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api/') || req.path.startsWith('/health')) {
+          return next();
+        }
+        res.sendFile(path.join(distPath, 'index.html'));
+      });
+    } else {
+      console.log('[Server] Production dist not found, mounting Vite middleware fallback');
+      const { createServer: createViteServer } = await import('vite');
+      const vite = await createViteServer({
+        server: { middlewareMode: true },
+        appType: 'spa',
+      });
+      app.use(vite.middlewares);
+      app.use('*', async (req, res, next) => {
+        if (req.path.startsWith('/api/') || req.path.startsWith('/health')) {
+          return next();
+        }
+        try {
+          const url = req.originalUrl;
+          const indexHtmlPath = path.resolve(process.cwd(), 'index.html');
+          let template = fs.readFileSync(indexHtmlPath, 'utf-8');
+          template = await vite.transformIndexHtml(url, template);
+          res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+        } catch (e: any) {
+          next(e);
+        }
+      });
+    }
   }
 
   app.listen(PORT, '0.0.0.0', () => {
