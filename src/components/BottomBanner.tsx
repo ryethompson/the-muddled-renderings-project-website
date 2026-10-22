@@ -42,7 +42,7 @@ export const formatToDDMMYYYY = (dateStr?: string): string => {
 };
 
 export const BottomBanner: React.FC<BottomBannerProps> = ({
-  missionStatement = 'The Muddled Renderings Project is an ongoing visual inquiry into the ways empirical data comes to represent economic inequalities as reality. Drawing on real-world datasets, analytical pipelines, and generative mechanisms, this open source project transforms statistical abstractions into living digital landscapes: shifting terrains where numbers acquire form, relationships become spatial, and patterns emerge and dissolve. In doing so, the project challenges not only what data reveals about economic inequalities, but also what is distorted, obscured, or lost when complex realities are rendered legible through measurement.',
+  missionStatement = 'The Muddled Renderings Project is an ongoing visual inquiry into the ways empirical data comes to represent socioeconomic inequalities as reality. Drawing from real-world public datasets, analytical pipelines, and generative visualisation tools, this open source web application is a personal learning project. Transforming statistical abstractions into living digital landscapes: terrains shift, relationships become spatial, and patterns emerge and dissolve. In doing so, the project challenges not only what data reveals about environmental inequalities, but also what is distorted, obscured, or lost when complex realities are rendered intelligible through measurement.',
   renderingDate = '21-08-2026',
   websiteVersion = 'v1.4 (September, 2026)',
   pipelineGithubUrl = 'https://github.com/ryethompson/the-muddled-renderings-project-website',
